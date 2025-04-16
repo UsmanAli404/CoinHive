@@ -1,0 +1,80 @@
+.signupContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(to right, var(--primary-color-light), var(--primary-color-dark));
+}
+
+#logo{
+    margin-top: 50px;
+}
+
+.signupBox {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.signupBox h2 {
+    margin-bottom: 20px;
+}
+
+.signupBox form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signupBox input {
+    margin: 5px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.signupBox input:focus {
+    border-color: var(--primary-color);
+}
+
+.signupBox button {
+    margin-top: 5px;
+    padding: 12px;
+    background: var(--primary-color);
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.signupBox button:hover {
+    background: var(--primary-color-dark);
+}
+
+.loginText {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.loginText a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.loginText a:hover {
+    text-decoration: underline;
+}

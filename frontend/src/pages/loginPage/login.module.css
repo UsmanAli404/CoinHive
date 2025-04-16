@@ -1,0 +1,76 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(to right, var(--primary-color-light), var(--primary-color-dark));
+}
+
+.loginBox {
+    margin-top: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.loginBox h2 {
+    margin-bottom: 20px;
+}
+
+.loginBox form {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginBox input {
+    margin: 5px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.loginBox input:focus {
+    border-color: var(--primary-color);
+}
+
+.loginBox button {
+    margin-top: 5px;
+    padding: 12px;
+    background: var(--primary-color);
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.loginBox button:hover {
+    background: var(--primary-color-dark);
+}
+
+.signupText {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.signupText a {
+    color: var(--primary-color-dark);
+    /* font-weight: bold; */
+    text-decoration: none;
+}
+
+.signupText a:hover {
+    text-decoration: underline;
+}
