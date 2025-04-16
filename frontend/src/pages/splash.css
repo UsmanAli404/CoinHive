@@ -1,0 +1,18 @@
+#bigDiv{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--primary-color);
+}
+
+#logo{
+    margin-top: 0px;
+}
+
+#loadingDiv {
+    position: absolute;
+    bottom: 0px;
+    height: 100px;
+}
