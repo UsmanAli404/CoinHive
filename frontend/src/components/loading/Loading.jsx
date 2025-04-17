@@ -1,11 +1,11 @@
-import './loading.css'
+import styles from './loading.module.css'
 
 function Loading() {
   return (
-    <div className="dot-loading-container">
-      <span className="dot"></span>
-      <span className="dot"></span>
-      <span className="dot"></span>
+    <div className={styles.dotLoadingContainer}>
+      <span className={styles.dot}></span>
+      <span className={styles.dot}></span>
+      <span className={styles.dot}></span>
     </div>
   );
 }
