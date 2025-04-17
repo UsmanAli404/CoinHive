@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
@@ -9,4 +10,17 @@
   "author": "",
   "license": "ISC",
   "description": ""
+=======
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server" :"nodemon server.js"
+  }
+>>>>>>> origin/backend
 }
