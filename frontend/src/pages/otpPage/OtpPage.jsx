@@ -8,6 +8,8 @@ function OtpPage() {
         setOtp(e.target.value);
     };
 
+    //abc
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("OTP submitted:", otp);
