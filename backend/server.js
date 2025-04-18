@@ -8,11 +8,15 @@ import userRouter from "./routes/userroutes.js";
 const app = express();
 const port  =  process.env.PORT || 4000
 connectDB();
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    Credentials:true,
+}));
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({Credentials:true}))
 
 app.get('/',(req,res)=>res.send("Server is Working"))
 app.use('/api/auth',authenticationRouter)
 app.use('/api/user',userRouter)
-app.listen(port,()=>console.log(`Sever Started on port:${port}`))
+app.listen(port,()=>console.log(`Sever Started on port:${port}`));
