@@ -42,9 +42,15 @@ function SignupPage() {
 
         try {
             let userData = {name: name, email:email, password:password};
-            const data = await registerUser(userData);
-            // console.log('Registration successful:', data);
+            let data = await registerUser(userData);
+            console.log(data);
+            if(data.data.message==="User already exists"){
+                dispatch(setMessage("User already exists!"));
+                dispatch(showDiv());
+                return;
+            }
             data = await sendVerifyOtp();
+            console.log(data);
             navigate('/otpPage');
         } catch (err) {
             console.error('Registration failed:', err.response?.data || err.message);
@@ -59,10 +65,10 @@ function SignupPage() {
             <div className={styles.signupBox}>
                 <h2>Sign Up</h2>
                 <form onSubmit={handleRegister}>
-                    <input ref={nameRef} type="text" placeholder="Name" required />
-                    <input ref={emailRef} type="email" placeholder="Email" required />
-                    <input ref={passRef} type="password" placeholder="Password" required />
-                    <input ref={confirmPassRef} type="password" placeholder="Confirm Password" required />
+                    <input ref={nameRef} onFocus={()=>dispatch(hideDiv())} type="text" placeholder="Name" required />
+                    <input ref={emailRef} onFocus={()=>dispatch(hideDiv())} type="email" placeholder="Email" required />
+                    <input ref={passRef} onFocus={()=>dispatch(hideDiv())} type="password" placeholder="Password" required />
+                    <input ref={confirmPassRef} onFocus={()=>dispatch(hideDiv())} type="password" placeholder="Confirm Password" required />
                     {showMessage && <div className={styles.messageDiv}>{message}</div>}
                     <button type="submit">Register</button>
                 </form>
