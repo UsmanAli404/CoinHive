@@ -42,7 +42,7 @@ export const register = async (req, res) => {
                 ${otp}
             </div>
             <p style="font-size: 16px; color: #333;">This OTP will expire in 10 minutes. Please use it before it expires. If you did not request this, you can safely ignore this email.</p>
-            <p style="font-size: 14px; color: #777;">If you face any issues, feel free to <a href="mailto:support@coinhive.com" style="color: #4CAF50;">contact us</a>.</p>
+            <p style="font-size: 14px; color: #777;">If you face any issues, feel free to <a href="mailto:abdulhaseeb2350@gmail.com" style="color: #4CAF50;">contact us</a>.</p>
             <p style="font-size: 14px; color: #777; text-align: center;">Thanks for choosing CoinHive!</p>
         </div>
         `
@@ -160,7 +160,7 @@ export const verifyEmail = async (req, res) => {
             <p style="font-size: 16px; color: #333;">Hi ${user.name},</p>
             <p style="font-size: 16px; color: #333;">Congratulations! Your CoinHive account has been successfully verified. You can now enjoy all the features of our platform.</p>
             <p style="font-size: 16px; color: #333;">You can log in using your registered email address and password</p>
-            <p style="font-size: 14px; color: #777; text-align: center;">If you did not sign up for CoinHive, please <a href="mailto:support@coinhive.com" style="color: #4CAF50;">contact us</a> immediately.</p>
+            <p style="font-size: 14px; color: #777; text-align: center;">If you did not sign up for CoinHive, please <a href="mailto:abdulhaseeb2350@gmail.com" style="color: #4CAF50;">contact us</a> immediately.</p>
             <p style="font-size: 14px; color: #777; text-align: center;">Thanks for choosing CoinHive!</p>
         </div>
         `
