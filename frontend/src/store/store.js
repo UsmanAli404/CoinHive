@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../slices/counterSlice.js';
-import signupReducer from '../slices/signupSlice.js';
+import otpReducer from '../slices/otpSlice.js';
+import messageReducer from '../slices/messageSlice.js';
+import loginReducer from '../slices/loginSlice.js';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    signup: signupReducer,
+    message: messageReducer,
+    otp: otpReducer,
+    login: loginReducer,
   },
 });

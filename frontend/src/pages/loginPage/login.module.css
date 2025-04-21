@@ -74,3 +74,8 @@
 .signupText a:hover {
     text-decoration: underline;
 }
+
+.messageDiv{
+    color: rgb(82, 82, 82);
+    margin: 10px 0px;
+}

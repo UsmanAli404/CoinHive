@@ -1,33 +1,43 @@
 import API from "./api";
 
+//register
 export const registerUser = async (userData) => {
-    return API.post('/auth/register', userData);
+    return API.post('/register', userData);
 };
 
+//login
 export const loginUser = async (credentials) => {
-    return API.post('/auth/login', credentials);
+    return API.post('/login', credentials);
 };
 
+//logout
 export const logoutUser = async () => {
-    return API.post('/auth/logout');
+    return API.post('/logout');
 };
 
-export const sendVerifyOtp = async () => {
-    return API.post('/auth/send-verify-otp');
+//verifyEmail
+export const verifyAccount = async (data) => {
+    return API.post('/verify-account', data);
 };
 
-export const verifyAccount = async (otp) => {
-    return API.post('/auth/verify-account', { otp });
-};
-  
-export const checkAuth = async () => {
-    return API.post('/auth/is-authenticated');
+export const sendVerificationOtp = async(data) => {
+    return API.post('/send-verification-otp', data);
 };
 
+export const getUserData = async(data)=>{
+    return API.post('/get-user-data', (data));
+}
+
+export const checkAuth = async (token) => {
+    return API.post('/is-authenticated', { token });
+};
+
+//password reset
 export const sendResetOtp = async (email) => {
-    return API.post('/auth/send-reset-otp', { email });
+    return API.post('/send-reset-otp', { email });
 };
-  
+
+//reset password
 export const resetPassword = async (data) => {
-    return API.post('/auth/reset-password', data);
+    return API.post('/reset-password', data);
 };

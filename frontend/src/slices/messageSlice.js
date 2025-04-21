@@ -5,17 +5,17 @@ const initialState = {
     message: '',
 };
 
-const signupSlice = createSlice({
-    name: 'signup',
+const messageSlice = createSlice({
+    name: 'message',
     initialState,
     reducers: {
-        showDiv: (state) => {
+        showMessage: (state) => {
             state.isMessageVisible = true;
         },
-        hideDiv: (state) => {
+        hideMessage: (state) => {
             state.isMessageVisible = false;
         },
-        toggleDiv: (state) => {
+        toggleMessageVisibility: (state) => {
             state.isMessageVisible = !state.isMessageVisible;
         },
         setMessage: (state, action) => {
@@ -27,5 +27,5 @@ const signupSlice = createSlice({
     },
 });
 
-export const { showDiv, hideDiv, toggleDiv, setMessage, clearMessage } = signupSlice.actions;
-export default signupSlice.reducer;
+export const { showMessage, hideMessage, toggleMessageVisibility, setMessage, clearMessage } = messageSlice.actions;
+export default messageSlice.reducer;

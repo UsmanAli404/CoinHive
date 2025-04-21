@@ -1,20 +1,25 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './signup.module.css';
 import logo from '../../assets/logo.svg';
-import { registerUser, sendVerifyOtp } from '../../api/functions';
-import { useRef } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {showDiv, hideDiv, setMessage, clearMessage} from '../../slices/signupSlice';
+import { registerUser } from '../../api/functions';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { showMessage, hideMessage, setMessage } from '../../slices/messageSlice.js';
 
 function SignupPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {showMessage, message} = useSelector(state => state.signup);
+    const {isMessageVisible, message} = useSelector(state => state.message);
 
     const nameRef = useRef("");
     const emailRef = useRef("");
     const passRef = useRef("");
     const confirmPassRef = useRef("");
+
+    useEffect(() => {
+        dispatch(setMessage(""));
+        dispatch(hideMessage());
+    }, []);
 
     const handleRegister = async (e)=>{
         // alert("An otp has been sent to your email.");
@@ -31,31 +36,30 @@ function SignupPage() {
 
         if(password !== confirmPassword){
             dispatch(setMessage("Passwords don't match!"));
-            dispatch(showDiv());
+            dispatch(showMessage());
             return;
         }
 
         console.log("abc");
 
         dispatch(setMessage("Please wait while we register you..."));
-        dispatch(showDiv());
+        dispatch(showMessage());
 
         try {
             let userData = {name: name, email:email, password:password};
-            let data = await registerUser(userData);
-            console.log(data);
-            if(data.data.message==="User already exists"){
+            let response = await registerUser(userData);
+            console.log(response);
+            if(response.data.message==="User already exists"){
                 dispatch(setMessage("User already exists!"));
-                dispatch(showDiv());
+                dispatch(showMessage());
                 return;
             }
-            data = await sendVerifyOtp();
-            console.log(data);
-            navigate('/otpPage');
+            //data.userId
+            navigate('/otpPage', { state: { userId: response.data.userId, email: email, name: name } });
         } catch (err) {
             console.error('Registration failed:', err.response?.data || err.message);
             dispatch(setMessage("An Error Occured: Please try again later"));
-            dispatch(showDiv());
+            dispatch(showMessage());
         }
     }
 
@@ -65,11 +69,11 @@ function SignupPage() {
             <div className={styles.signupBox}>
                 <h2>Sign Up</h2>
                 <form onSubmit={handleRegister}>
-                    <input ref={nameRef} onFocus={()=>dispatch(hideDiv())} type="text" placeholder="Name" required />
-                    <input ref={emailRef} onFocus={()=>dispatch(hideDiv())} type="email" placeholder="Email" required />
-                    <input ref={passRef} onFocus={()=>dispatch(hideDiv())} type="password" placeholder="Password" required />
-                    <input ref={confirmPassRef} onFocus={()=>dispatch(hideDiv())} type="password" placeholder="Confirm Password" required />
-                    {showMessage && <div className={styles.messageDiv}>{message}</div>}
+                    <input ref={nameRef} onFocus={()=>dispatch(hideMessage())} type="text" placeholder="Name" required />
+                    <input ref={emailRef} onFocus={()=>dispatch(hideMessage())} type="email" placeholder="Email" required />
+                    <input ref={passRef} onFocus={()=>dispatch(hideMessage())} type="password" placeholder="Password" required />
+                    <input ref={confirmPassRef} onFocus={()=>dispatch(hideMessage())} type="password" placeholder="Confirm Password" required />
+                    {isMessageVisible && <div className={styles.messageDiv}>{message}</div>}
                     <button type="submit">Register</button>
                 </form>
                 <p className={styles.loginText}>

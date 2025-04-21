@@ -5,65 +5,152 @@ import transporter from '../config/nodemailer.js';
 
 
 export const register = async (req, res) => {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.json({ success: false, message: 'Missing Details' });
-    }
-  
-    try {
-      const existingUser = await userModel.findOne({ email });
-      if (existingUser) {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res.json({ success: false, message: 'Missing Details' });
+  }
+
+  try {
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      if(existingUser.isVerified){
         return res.json({ success: false, message: 'User already exists' });
+      } else{
+        return res.json({ success: true, message: 'Verify Otp', userId: existingUser._id });
       }
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const otp = String(Math.floor(100000 + Math.random() * 900000));
-  
-      const user = new userModel({
-        name,
-        email,
-        password: hashedPassword,
-        verifyOtp: otp,
-        verifyOTPExpiryAt: Date.now() + 10 * 60 * 1000, // 10 mins
-      });
-  
-      await user.save();
-  
-      const mailSend = {
-        from: process.env.SMTP_SENDERID,
-        to: email,
-        subject: 'Verify your CoinHive account',
-        html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
-            <h2 style="color: #4CAF50; text-align: center;">Verify Your Email</h2>
-            <p style="font-size: 16px; color: #333;">Hello ${name},</p>
-            <p style="font-size: 16px; color: #333;">Thank you for registering on CoinHive! To complete your registration, please use the OTP (One-Time Password) below to verify your email address:</p>
-            <div style="font-size: 24px; font-weight: bold; background-color: #f1f1f1; padding: 15px; text-align: center; border-radius: 4px; color: #333; letter-spacing: 3px;">
-                ${otp}
-            </div>
-            <p style="font-size: 16px; color: #333;">This OTP will expire in 10 minutes. Please use it before it expires. If you did not request this, you can safely ignore this email.</p>
-            <p style="font-size: 14px; color: #777;">If you face any issues, feel free to <a href="mailto:abdulhaseeb2350@gmail.com" style="color: #4CAF50;">contact us</a>.</p>
-            <p style="font-size: 14px; color: #777; text-align: center;">Thanks for choosing CoinHive!</p>
-        </div>
-        `
-    };
-    
-      transporter.sendMail(mailSend, (error, info) => {
-        if (error) {
-          console.log('Error sending OTP email:', error.message);
-        }
-      });
-  
-      return res.json({
-        success: true,
-        message: 'User registered. Verification OTP sent to your email.',
-        userId: user._id,
-      });
-  
-    } catch (error) {
-      return res.json({ success: false, message: error.message });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    const user = new userModel({
+      name,
+      email,
+      password: hashedPassword,
+      verifyOtp: otp,
+      verifyOTPExpiryAt: Date.now() + 10 * 60 * 1000,
+    });
+
+    await user.save();
+
+    const mailSend = {
+      from: process.env.SMTP_SENDERID,
+      to: email,
+      subject: 'Verify your CoinHive account',
+      html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+          <h2 style="color: #4CAF50; text-align: center;">Verify Your Email</h2>
+          <p style="font-size: 16px; color: #333;">Hello ${name},</p>
+          <p style="font-size: 16px; color: #333;">Thank you for registering on CoinHive! To complete your registration, please use the OTP (One-Time Password) below to verify your email address:</p>
+          <div style="font-size: 24px; font-weight: bold; background-color: #f1f1f1; padding: 15px; text-align: center; border-radius: 4px; color: #333; letter-spacing: 3px;">
+              ${otp}
+          </div>
+          <p style="font-size: 16px; color: #333;">This OTP will expire in 10 minutes. Please use it before it expires. If you did not request this, you can safely ignore this email.</p>
+          <p style="font-size: 14px; color: #777;">If you face any issues, feel free to <a href="mailto:abdulhaseeb2350@gmail.com" style="color: #4CAF50;">contact us</a>.</p>
+          <p style="font-size: 14px; color: #777; text-align: center;">Thanks for choosing CoinHive!</p>
+      </div>
+      `
   };
+  
+    transporter.sendMail(mailSend, (error, info) => {
+      if (error) {
+        console.log('Error sending OTP email:', error.message);
+      }
+    });
+
+    return res.json({
+      success: true,
+      message: 'User registered. Verification OTP sent to your email.',
+      userId: user._id,
+    });
+
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+//by email
+export const getUserData = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.json({ success: false, message: 'Missing Details' });
+  }
+
+  const existingUser = await userModel.findOne({ email });
+
+  if(existingUser){
+    return res.json({success: true, userData: existingUser});
+  }
+
+  return res.status(404).json({ success: false, message: "User not found" });
+}
+
+export const sendVerificationOtp = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.json({ success: false, message: 'Missing Details' });
+  }
+
+  const otp = String(Math.floor(100000 + Math.random() * 900000));
+  const expiry = Date.now() + 10 * 60 * 1000;
+
+  const existingUser = await userModel.findOne({ email });
+  let name = "";
+
+  if(existingUser){
+    name = existingUser.name;
+
+    if (Number(existingUser.verifyOTPExpiryAt) > Date.now()) {
+      return res.json({ success: false, message: 'OTP sent has not expired yet!' });
+    }
+
+    const response = await userModel.updateOne(
+      { email },
+      {
+        $set: {
+          verifyOtp: otp,
+          verifyOTPExpiryAt: expiry,
+        }
+      }
+    );
+
+    console.log(response);
+
+    const mailSend = {
+      from: process.env.SMTP_SENDERID,
+      to: email,
+      subject: 'Verify your CoinHive account',
+      html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+          <h2 style="color: #4CAF50; text-align: center;">Verify Your Email</h2>
+          <p style="font-size: 16px; color: #333;">Hello ${name},</p>
+          <p style="font-size: 16px; color: #333;">Thank you for registering on CoinHive! To complete your registration, please use the OTP (One-Time Password) below to verify your email address:</p>
+          <div style="font-size: 24px; font-weight: bold; background-color: #f1f1f1; padding: 15px; text-align: center; border-radius: 4px; color: #333; letter-spacing: 3px;">
+              ${otp}
+          </div>
+          <p style="font-size: 16px; color: #333;">This OTP will expire in 10 minutes. Please use it before it expires. If you did not request this, you can safely ignore this email.</p>
+          <p style="font-size: 14px; color: #777;">If you face any issues, feel free to <a href="mailto:abdulhaseeb2350@gmail.com" style="color: #4CAF50;">contact us</a>.</p>
+          <p style="font-size: 14px; color: #777; text-align: center;">Thanks for choosing CoinHive!</p>
+      </div>
+      `
+    };
+  
+    try{
+      await transporter.sendMail(mailSend);
+      console.log('Otp sent successfully: ', email);
+      return res.status(200).json({success: true, message: "Otp sent successfully"});
+    } catch(error){
+      console.error('Error sending OTP email:', error.message);
+      return res.status(500).json({success: false, message: "Failed to send otp"});
+    }
+
+  } else{
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+};
+
 export const login = async(req,res)=>{
     const {email,password} = req.body;
     if(!email || !password)
