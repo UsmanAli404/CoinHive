@@ -1,0 +1,248 @@
+.dashboardContainer {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(to right, var(--primary-color-light), var(--primary-color-dark));
+    color: #333;
+    flex-direction: column;
+}
+
+@media (min-width: 769px) {
+    .dashboardContainer {
+        flex-direction: row;
+    }
+}
+
+.sidebar {
+    width: 100%;
+    max-width: 240px;
+    background: black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+.sidebarNav li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebarNav li.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 10px;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sidebarNav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebarNav li {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebarNav li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebarNav li.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebarNav li svg {
+    margin-right: 10px;
+}
+
+.guideButton {
+    margin-top: auto;
+    background-color: var(--primary-color);
+    color: black;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 40px;
+}
+
+.guideButton:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.guideButton svg {
+    margin-right: 8px;
+}
+
+/* Main Content Styles */
+.mainContent {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.breadcrumb {
+    color: #666;
+    font-size: 14px;
+}
+
+.traderProfile {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Dashboard Main Content */
+.dashboardMain {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .dashboardMain {
+        flex-direction: row;
+    }
+}
+
+.contentLeft {
+    flex: 1;
+}
+
+.contentRight {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .contentRight {
+        width: 300px;
+    }
+}
+
+/* Section Styles */
+.section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.moreLink {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.assetCards {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+/* New Asset Card */
+.newAssetCard {
+    min-width: 200px;
+    height: 120px;
+    background-color: white;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.newAssetCard:hover {
+    border-color: var(--primary-color);
+}
+
+.addIcon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    color: var(--primary-color-dark);
+}
+
+/* Trade Now Button */
+.tradeNowContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.tradeNowButton {
+    background-color: var(--primary-color);
+    color: black;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tradeNowButton:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.tradeNowButton svg {
+    margin-right: 8px;
+}
