@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const portfolioSchema = new mongoose.Schema({
     userEmail: {
@@ -57,4 +57,5 @@ const portfolioSchema = new mongoose.Schema({
     ],
 }, { timestamps: true });
 
-module.exports = mongoose.model('Portfolio', portfolioSchema);
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
+export default Portfolio;
