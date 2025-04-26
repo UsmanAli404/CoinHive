@@ -22,11 +22,11 @@ function LoginPage() {
     const login = async (e) => {
         e.preventDefault();
 
-        console.log(email, password);
+        // console.log(email, password);
 
         try{
             const response = await loginUser({email, password});
-            console.log(response);
+            // console.log(response);
             if(response.data.success){
                 //navigate to dashboard
                 dispatch(setMessage("Login Successful"));
@@ -51,8 +51,8 @@ function LoginPage() {
             <div className={styles.loginBox}>
                 <h2>Login</h2>
                 <form onSubmit={login}>
-                    <input onChange={(e)=>dispatch(setEmail(e.target.value))} type="text" placeholder="Email" required />
-                    <input onChange={(e)=>dispatch(setPassword(e.target.value))} type="password" placeholder="Password" required />
+                    <input onChange={(e)=>dispatch(setEmail(e.target.value))} onFocus={()=>dispatch(hideMessage())} type="text" placeholder="Email" required />
+                    <input onChange={(e)=>dispatch(setPassword(e.target.value))} onFocus={()=>dispatch(hideMessage())} type="password" placeholder="Password" required />
                     <button type="submit">Login</button>
                 </form>
                 {isMessageVisible && <div className={styles.messageDiv}>{message}</div>}

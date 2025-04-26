@@ -98,9 +98,10 @@ function OtpPage() {
 
     useEffect(()=>{
         if (!userId || !email || !name) {
-            dispatch(setMessage("Missing verification details. Please register again."));
+            dispatch(setMessage(""));
             dispatch(showMessage());
             navigate('/signup');
+            return;
         }
 
         otpInputRef.current.focus();
@@ -138,7 +139,6 @@ function OtpPage() {
             <img className={styles.img} src={shield} width={100} alt="" />
             <div className={styles.otpBox}>
                 <h2 className={styles.title}>Email Verification</h2>
-                {/* <p>An OTP has been sent to your provided email address.</p> */}
                 <div className={styles.inputDiv}>
                     <input
                         ref={otpInputRef}
