@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './dashboard.module.css'
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/coinhive_favicon.svg'
 import {
     FaHome,
     FaWallet,
@@ -9,7 +9,9 @@ import {
     FaComments,
     FaChartBar,
     FaCog,
-    FaQuestion
+    FaQuestion,
+    FaBars,
+    FaPlus
 } from 'react-icons/fa'
 
 import CoinTable from './CoinTable/CoinTable.jsx'
@@ -18,45 +20,62 @@ import UserProfile from './UserProfile/UserProfile.jsx'
 function Dashboard()
 {
     const [activeTab, setActiveTab] = useState('home')
+    const [collapsed, setCollapsed] = useState(false)
 
-    useEffect(() =>
-    {
-        window.scrollTo(0, 0)
+    useEffect(() => {
+        window.scrollTo(0, 0);
     }, [])
 
     return (
         <div className={styles.dashboardContainer}>
-            <div className={styles.sidebar}>
-                <div className={styles.logo}>
-                    <img src={logo} alt="CoinHive Logo" />
-                    <span>CoinHive</span>
+            <div className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+                
+                <div className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)}>
+                    <FaBars />
+                </div>
+
+                <div onClick={() => setActiveTab('home')} className={styles.logo}>
+                    <img src={logo} width="30px" alt="CoinHive Logo" />
+                    {!collapsed && <span>CoinHive</span>}
                 </div>
 
                 <nav className={styles.sidebarNav}>
                     <ul>
                         <li className={activeTab === 'home' ? styles.active : ''} onClick={() => setActiveTab('home')}>
-                            <FaHome /> <span>Home</span>
+                            <FaHome /> 
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Home</span>}
+                            {collapsed && <div className={styles.tooltip}>Home</div>}
                         </li>
                         <li className={activeTab === 'assets' ? styles.active : ''} onClick={() => setActiveTab('assets')}>
-                            <FaWallet /> <span>Assets</span>
+                            <FaWallet />
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Assets</span>}
+                            {collapsed && <div className={styles.tooltip}>Assets</div>}
                         </li>
                         <li className={activeTab === 'trade' ? styles.active : ''} onClick={() => setActiveTab('trade')}>
-                            <FaExchangeAlt /> <span>Live Trade</span>
+                            <FaExchangeAlt /> 
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Live Trade</span>}
+                            {collapsed && <div className={styles.tooltip}>Live Trade</div>}
                         </li>
                         <li className={activeTab === 'forum' ? styles.active : ''} onClick={() => setActiveTab('forum')}>
-                            <FaComments /> <span>Forum</span>
+                            <FaComments /> 
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Forum</span>}
+                            {collapsed && <div className={styles.tooltip}>Forum</div>}
                         </li>
                         <li className={activeTab === 'reports' ? styles.active : ''} onClick={() => setActiveTab('reports')}>
-                            <FaChartBar /> <span>Reports</span>
+                            <FaChartBar /> 
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Reports</span>}
+                            {collapsed && <div className={styles.tooltip}>Reports</div>}
                         </li>
                         <li className={activeTab === 'settings' ? styles.active : ''} onClick={() => setActiveTab('settings')}>
-                            <FaCog /> <span>Settings</span>
+                            <FaCog /> 
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Settings</span>}
+                            {collapsed && <div className={styles.tooltip}>Settings</div>}
                         </li>
                     </ul>
                 </nav>
 
                 <div className={styles.guideButton}>
-                    <FaQuestion /> <span>Guide</span>
+                    <FaQuestion /> {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
                 </div>
             </div>
 
@@ -80,7 +99,9 @@ function Dashboard()
 
                             <div className={styles.assetCards}>
                                 <div className={styles.newAssetCard}>
-                                    <div className={styles.addIcon}>+</div>
+                                    <div className={styles.addIcon}>
+                                        <FaPlus size={12}/>
+                                    </div>
                                     <p>New Asset</p>
                                 </div>
                             </div>

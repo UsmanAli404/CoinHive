@@ -23,13 +23,15 @@ function LoginPage() {
         e.preventDefault();
 
         // console.log(email, password);
+        dispatch(setMessage("Please wait..."));
+        dispatch(showMessage());
 
         try{
             const response = await loginUser({email, password});
             // console.log(response);
             if(response.data.success){
                 //navigate to dashboard
-                dispatch(setMessage("Login Successful"));
+                dispatch(setMessage("Login Successful!"));
                 dispatch(showMessage());
                 setTimeout(()=>{
                     navigate('/dashboard');

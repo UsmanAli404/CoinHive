@@ -26,13 +26,14 @@
 
 .title{
     font-weight: 500;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     color: rgb(69, 69, 69);
 }
 
 .inputDiv{
     display: flex;
     width: inherit;
+    margin-bottom: 10px;
 }
 
 .input {
@@ -78,8 +79,9 @@
 }
 
 .timer{
+    color: rgb(49, 49, 49);
     margin: 0px;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 15px;
+    right: 38px;
 }
