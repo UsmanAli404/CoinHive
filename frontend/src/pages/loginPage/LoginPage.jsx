@@ -55,12 +55,13 @@ function LoginPage() {
                     <input onChange={(e)=>dispatch(setPassword(e.target.value))} onFocus={()=>dispatch(hideMessage())} type="password" placeholder="Password" required />
                     <button type="submit">Login</button>
                 </form>
+                {isMessageVisible && <div className={styles.messageDiv}>{message}</div>}
                 <p className={styles.signupText}>
                     Don't have an account? <Link to="/signup">Sign Up</Link>
                 </p>
             </div>
         </div>
-    )
+    );
 }
 
-export default LoginPage
+export default LoginPage;
