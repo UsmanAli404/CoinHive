@@ -115,12 +115,59 @@ function Dashboard()
                         </section>
 
                         <section className={styles.section}>
-                            <CoinTable coins={[]} />
-                            <div className={styles.tradeNowContainer}>
-                                <button className={styles.tradeNowButton}>
-                                    <FaExchangeAlt /> Trade Now
-                                </button>
-                            </div>
+                        <CoinTable coins={[
+                        {
+                            name: "Bitcoin",
+                            price: 67234,
+                            marketCap: 1267843984,
+                        },
+                        {
+                            name: "Ethereum",
+                            price: 3245,
+                            marketCap: 389472384,
+                        },
+                        {
+                            name: "Ripple",
+                            price: 0.56,
+                            marketCap: 29837423,
+                        },
+                        {
+                            name: "Litecoin",
+                            price: 145,
+                            marketCap: 19384723,
+                        },
+                        {
+                            name: "Cardano",
+                            price: 0.39,
+                            marketCap: 18472384,
+                        },
+                        {
+                            name: "Dogecoin",
+                            price: 0.13,
+                            marketCap: 15372849,
+                        },
+                        {
+                            name: "Solana",
+                            price: 95,
+                            marketCap: 84723847,
+                        },
+                        {
+                            name: "Polkadot",
+                            price: 6.5,
+                            marketCap: 5839284,
+                        },
+                        {
+                            name: "Avalanche",
+                            price: 32,
+                            marketCap: 9283742,
+                        },
+                        {
+                            name: "Shiba Inu",
+                            price: 0.000023,
+                            marketCap: 1847293,
+                        }
+                    ]} />
+
                         </section>
                     </div>
 
