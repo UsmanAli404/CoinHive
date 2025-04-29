@@ -71,12 +71,13 @@ function Dashboard()
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Settings</span>}
                             {collapsed && <div className={styles.tooltip}>Settings</div>}
                         </li>
+                        <li className={styles.guideButton}>
+                            <FaQuestion />
+                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
+                            {collapsed && <div className={styles.tooltip}>Guide</div>}
+                        </li>
                     </ul>
                 </nav>
-
-                <div className={styles.guideButton}>
-                    <FaQuestion /> {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
-                </div>
             </div>
 
             <div className={styles.mainContent}>

@@ -36,14 +36,15 @@
 .button{
     border-radius: 8px;
     border: none;
-    font-size: medium;
+    font-size: small;
     padding: 5px 15px;
     background-color: var(--primary-color);
     cursor: pointer;
 }
 
 .button:hover{
-    background-color: var(--primary-color-dark);
+    /* background-color: var(--primary-color-dark); */
+    transform: scale(1.1);
 }
 
 .clickable {
