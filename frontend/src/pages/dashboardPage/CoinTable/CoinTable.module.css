@@ -1,3 +1,13 @@
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .coinTable {
     width: 100%;
     border-collapse: collapse;
@@ -6,7 +16,7 @@
 .coinTable th,
 .coinTable td {
     padding: 12px 16px;
-    text-align: left;
+    text-align: center;
 }
 
 .coinTable th {
@@ -51,3 +61,61 @@
     cursor: pointer;
     user-select: none;
 }
+
+.nameCell {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pagination {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .arrowWrapper {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .arrowLeft {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-right: 10px solid rgb(60, 60, 60);
+  }
+
+  .arrowRight {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-left: 10px solid rgb(60, 60, 60);
+  }
+
+  .arrowWrapper:hover{
+    transform: scale(1.1);
+  }
+
+  .disabled {
+    border-right-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  .pageInput {
+    width: 20px;
+    text-align: center;
+    padding: 0.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }

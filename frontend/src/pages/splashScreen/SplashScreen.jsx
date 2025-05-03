@@ -4,6 +4,9 @@ import logo from '../../assets/logo.svg'
 import Loading from '../../components/loading/Loading';
 import './splash.css'
 
+//need to check if a user is logged in or not?
+//if logged in then, take directly to dashboard page
+
 function SplashScreen(){
     const navigate = useNavigate();
     
