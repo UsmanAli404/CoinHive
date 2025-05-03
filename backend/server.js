@@ -19,7 +19,10 @@ const port  = process.env.PORT || 4000;
 connectDB();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ Credentials: true }));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true 
+}));
 
 app.get('/', (req, res) => res.send("Server is Working"));
 app.use('/api/auth', authenticationRouter);

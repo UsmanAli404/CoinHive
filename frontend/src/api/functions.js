@@ -28,8 +28,8 @@ export const getUserData = async(data)=>{
     return API.post('/auth/get-user-data', (data));
 }
 
-export const checkAuth = async (token) => {
-    return API.post('/auth/is-authenticated', { token });
+export const checkAuth = async () => {
+    return API.post('/auth/is-authenticated');
 };
 
 //password reset
@@ -41,6 +41,10 @@ export const sendResetOtp = async (email) => {
 export const resetPassword = async (data) => {
     return API.post('/auth/reset-password', data);
 };
+
+export const getMarketData = async(data) => {
+    return API.post('/market/market-data', data);
+}
 
 export const getCoins = async (data) => {
     return API.post('/market/coins', data);

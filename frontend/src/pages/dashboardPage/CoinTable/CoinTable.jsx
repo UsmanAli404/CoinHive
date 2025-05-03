@@ -1,14 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './CoinTable.module.css';
 import { getCoins } from '../../../api/functions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+    setSortField, 
+    setSortOrder, 
+    setCurrentPage, 
+    setCoins, 
+    setFetchedBlockPage, 
+    setInputPage 
+} from '../../../slices/coinTableSlice.js';
+import { Link } from 'react-router-dom';
 
 function CoinTable() {
-    const [sortField, setSortField] = useState('price');
-    const [sortOrder, setSortOrder] = useState('desc');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [coins, setCoins] = useState([]);
-    const [fetchedBlockPage, setFetchedBlockPage] = useState(null);
-    const [inputPage, setInputPage] = useState(currentPage);
+    const dispatch = useDispatch();
+    const {
+        sortField,
+        sortOrder, 
+        currentPage, 
+        coins, 
+        fetchedBlockPage, 
+        inputPage
+    } = useSelector(state => state.coinTable);
 
     const itemsPerPage = 10;
     const coinsPerFetch = 100;
@@ -16,10 +29,10 @@ function CoinTable() {
 
     const handleSort = (field) => {
         if (sortField === field) {
-            setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'));
+            dispatch(setSortOrder((sortOrder === 'asc' ? 'desc' : 'asc')));
         } else {
-            setSortField(field);
-            setSortOrder('asc');
+            dispatch(setSortField(field));
+            dispatch(setSortOrder('asc'));
         }
     };
 
@@ -33,9 +46,11 @@ function CoinTable() {
                 sparkline: false
             });
 
+            console.log(response);
+
             if (response.status === 200) {
-                setCoins(response.data);
-                setFetchedBlockPage(apiPage);
+                dispatch(setCoins(response.data));
+                dispatch(setFetchedBlockPage(apiPage));
             } else {
                 console.error("An error occurred while fetching coins");
             }
@@ -54,14 +69,14 @@ function CoinTable() {
     }, [currentPage]);
 
     useEffect(() => {
-        setInputPage(currentPage);
+        dispatch(setInputPage(currentPage));
     }, [currentPage]);
 
     const startIndex = ((currentPage - 1) % pagesPerBlock) * itemsPerPage;
     const visibleCoins = [...coins]
         .sort((a, b) => {
-            const num_a = Number(a[sortField].replace(/[$,]/g, ''));
-            const num_b = Number(b[sortField].replace(/[$,]/g, ''));
+            const num_a = Number(a[sortField].replace(/[$,%]/g, ''));
+            const num_b = Number(b[sortField].replace(/[$,%]/g, ''));
             return sortOrder === 'asc' ? num_a - num_b : num_b - num_a;
         })
         .slice(startIndex, startIndex + itemsPerPage);
@@ -75,7 +90,9 @@ function CoinTable() {
                     <th onClick={() => handleSort('price')} className={styles.clickable}>
                         Price {sortField === 'price' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                     </th>
-                    <th>Change</th>
+                    <th onClick={() => handleSort('change_24h')} className={styles.clickable}>
+                        Change {sortField === 'change_24h' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                    </th>
                     <th onClick={() => handleSort('market_cap')} className={styles.clickable}>
                         Market Cap {sortField === 'market_cap' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                     </th>
@@ -88,9 +105,20 @@ function CoinTable() {
                 <tbody>
                 {visibleCoins.map((coin, index) => (
                     <tr key={index}>
-                        <td className={styles.nameCell}>{coin.name}</td>
+                        <td className={styles.nameCell}>
+                            <Link to={`/coin/${coin.symbol}`} className={styles.assetLink}>
+                                {coin.name}
+                            </Link>
+                        </td>
+                        
                         <td>{coin.price}</td>
-                        <td>{coin.change}</td>
+                        <td className={
+                            parseFloat(coin.change_24h) > 0 ? styles.changePositive :
+                            parseFloat(coin.change_24h) < 0 ? styles.changeNegative :
+                            styles.changeNeutral
+                        }>
+                            {coin.change_24h}
+                        </td>
                         <td>{coin.market_cap}</td>
                         <td>{coin.volume}</td>
                         <td><button className={styles.button}>Trade</button></td>
@@ -103,7 +131,7 @@ function CoinTable() {
                 <div
                     className={styles.arrowWrapper}
                     onClick={() => {
-                        if (currentPage > 1) setCurrentPage(prev => prev - 1);
+                        if (currentPage > 1) dispatch(setCurrentPage(currentPage - 1));
                     }}
                 >
                     <div className={`${styles.arrowLeft} ${currentPage === 1 ? styles.disabled : ''}`} />
@@ -116,20 +144,20 @@ function CoinTable() {
                         const val = e.target.value;
                     
                         if (val === '') {
-                            setInputPage('');
+                            dispatch(setInputPage(''));
                         } else {
                             const num = parseInt(val);
                             if (!isNaN(num) && num > 0) {
-                                setInputPage(num);
+                                dispatch(setInputPage(num));
                             }
                         }
                     }}
-                                     
+
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             const num = parseInt(inputPage);
                             if (!isNaN(num) && num > 0 && num !== currentPage) {
-                                setCurrentPage(num);
+                                dispatch(setCurrentPage(num));
                             }
                         }
                     }}
@@ -139,7 +167,7 @@ function CoinTable() {
 
                 <div
                     className={styles.arrowWrapper}
-                    onClick={() => setCurrentPage(prev => prev + 1)}
+                    onClick={() => dispatch(setCurrentPage(currentPage + 1))}
                 >
                     <div className={styles.arrowRight} />
                 </div>

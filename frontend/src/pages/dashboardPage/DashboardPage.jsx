@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './dashboard.module.css'
 import logo from '../../assets/coinhive_favicon.svg'
-
 import {
     FaHome,
     FaWallet,
@@ -14,14 +13,15 @@ import {
     FaBars,
     FaPlus
 } from 'react-icons/fa'
-
 import CoinTable from './CoinTable/CoinTable.jsx'
 import UserProfile from './UserProfile/UserProfile.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { setActiveTab, setCollapsed } from '../../slices/dashboardSlice.js'
 
 function Dashboard()
 {
-    const [activeTab, setActiveTab] = useState('home');
-    const [collapsed, setCollapsed] = useState(false);
+    const dispatch = useDispatch();
+    const {activeTab, collapsed} = useSelector(state => state.dashboard);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -31,43 +31,43 @@ function Dashboard()
         <div className={styles.dashboardContainer}>
             <div className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
                 
-                <div className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)}>
+                <div className={styles.toggleButton} onClick={() => dispatch(setCollapsed(!collapsed))}>
                     <FaBars />
                 </div>
 
-                <div onClick={() => setActiveTab('home')} className={styles.logo}>
+                <div onClick={() => dispatch(setActiveTab('home'))} className={styles.logo}>
                     <img src={logo} width="30px" alt="CoinHive Logo" />
                     {!collapsed && <span>CoinHive</span>}
                 </div>
 
                 <nav className={styles.sidebarNav}>
                     <ul>
-                        <li className={activeTab === 'home' ? styles.active : ''} onClick={() => setActiveTab('home')}>
+                        <li className={activeTab === 'home' ? styles.active : ''} onClick={() => dispatch(setActiveTab('home'))}>
                             <FaHome /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Home</span>}
                             {collapsed && <div className={styles.tooltip}>Home</div>}
                         </li>
-                        <li className={activeTab === 'assets' ? styles.active : ''} onClick={() => setActiveTab('assets')}>
+                        <li className={activeTab === 'assets' ? styles.active : ''} onClick={() => dispatch(setActiveTab('assets'))}>
                             <FaWallet />
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Assets</span>}
                             {collapsed && <div className={styles.tooltip}>Assets</div>}
                         </li>
-                        <li className={activeTab === 'trade' ? styles.active : ''} onClick={() => setActiveTab('trade')}>
+                        <li className={activeTab === 'trade' ? styles.active : ''} onClick={() => dispatch(setActiveTab('trade'))}>
                             <FaExchangeAlt /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Live Trade</span>}
                             {collapsed && <div className={styles.tooltip}>Live Trade</div>}
                         </li>
-                        <li className={activeTab === 'forum' ? styles.active : ''} onClick={() => setActiveTab('forum')}>
+                        <li className={activeTab === 'forum' ? styles.active : ''} onClick={() => dispatch(setActiveTab('forum'))}>
                             <FaComments /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Forum</span>}
                             {collapsed && <div className={styles.tooltip}>Forum</div>}
                         </li>
-                        <li className={activeTab === 'reports' ? styles.active : ''} onClick={() => setActiveTab('reports')}>
+                        <li className={activeTab === 'reports' ? styles.active : ''} onClick={() => dispatch(setActiveTab('reports'))}>
                             <FaChartBar /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Reports</span>}
                             {collapsed && <div className={styles.tooltip}>Reports</div>}
                         </li>
-                        <li className={activeTab === 'settings' ? styles.active : ''} onClick={() => setActiveTab('settings')}>
+                        <li className={activeTab === 'settings' ? styles.active : ''} onClick={() => dispatch(setActiveTab('settings'))}>
                             <FaCog /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Settings</span>}
                             {collapsed && <div className={styles.tooltip}>Settings</div>}
