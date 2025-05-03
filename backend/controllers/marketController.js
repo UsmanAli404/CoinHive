@@ -67,6 +67,7 @@ export const getCoins = async (req, res) => {
       per_page,
       page,
       sparkline,
+      price_change_percentage: '24h'
     };
 
     const { data } = await axios.get(url, { params });
@@ -76,7 +77,8 @@ export const getCoins = async (req, res) => {
       symbol: coin.symbol.toUpperCase(),
       price: `$${coin.current_price.toLocaleString()}`,
       market_cap: `$${coin.market_cap.toLocaleString()}`,
-      volume: `$${coin.total_volume.toLocaleString()}`
+      volume: `$${coin.total_volume.toLocaleString()}`,
+      change_24h: `${coin.price_change_percentage_24h?.toFixed(2)}%`
     }));
 
     res.json(formatted);
@@ -86,6 +88,29 @@ export const getCoins = async (req, res) => {
   }
 };
 
+
+export const getAllCoins = async (req, res) => {
+  try {
+    const url = "https://api.binance.com/api/v3/exchangeInfo";
+
+    const { data } = await axios.get(url);
+
+    const uniqueCoins = new Set();
+    data.symbols.forEach(({ baseAsset, quoteAsset }) => {
+      uniqueCoins.add(baseAsset);
+      uniqueCoins.add(quoteAsset);
+    });
+
+    const formatted = Array.from(uniqueCoins).sort().map(coin => ({
+      symbol: coin
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error("Error fetching Binance coins:", error.message);
+    res.status(500).json({ error: "Failed to fetch Binance coin list" });
+  }
+};
 
 export const getActivityData = async (req, res) => {
   try {
