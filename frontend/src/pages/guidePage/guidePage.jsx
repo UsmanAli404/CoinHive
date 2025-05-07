@@ -37,18 +37,22 @@ function Guide() {
                     <FaBars />
                 </div>
 
-                <div onClick={() => dispatch(setActiveTab('home'))} className={styles.logo}>
-                    <img src={logo} width="30px" alt="CoinHive Logo" />
-                    {!collapsed && <span>CoinHive</span>}
-                </div>
+                <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div onClick={() => dispatch(setActiveTab('home'))} className={styles.logo}>
+                        <img src={logo} width="30px" alt="CoinHive Logo" />
+                        {!collapsed && <span>CoinHive</span>}
+                    </div>
+                </Link>
 
                 <nav className={styles.sidebarNav}>
                     <ul>
+                        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <li className={activeTab === 'home' ? styles.active : ''} onClick={() => dispatch(setActiveTab('home'))}>
                             <FaHome /> 
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Home</span>}
                             {collapsed && <div className={styles.tooltip}>Home</div>}
                         </li>
+                        </Link>
                         <li className={activeTab === 'assets' ? styles.active : ''} onClick={() => dispatch(setActiveTab('assets'))}>
                             <FaWallet />
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Assets</span>}
@@ -197,41 +201,41 @@ function Guide() {
                         </section>
 
                         <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                <h2>GETTING STARTED</h2>
-                            </div>
-                            
+                    <div className={styles.sectionHeader}>
+                        <h2>GETTING STARTED</h2>
+                    </div>
+
                             <div className={styles.guideContent}>
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>1</div>
-                                    <div className={styles.stepContent}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>1</div>
+                        <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Creating Your Account</h3>
-                                        <p className={styles.stepDescription}>
+                            <p className={styles.stepDescription}>
                                             Sign up for a CoinHive account using your email address. Complete the verification process to ensure your account is secure. We use industry-standard security protocols to protect your information.
-                                        </p>
-                                    </div>
-                                </div>
+                            </p>
+                        </div>
+                    </div>
 
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>2</div>
-                                    <div className={styles.stepContent}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>2</div>
+                        <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Setting Up Your Wallet</h3>
-                                        <p className={styles.stepDescription}>
+                            <p className={styles.stepDescription}>
                                             Connect your existing crypto wallet or create a new one using our platform. We support multiple wallet options to give you flexibility in managing your assets. Make sure to enable two-factor authentication for additional security.
-                                        </p>
-                                    </div>
-                                </div>
+                            </p>
+                        </div>
+                    </div>
 
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>3</div>
-                                    <div className={styles.stepContent}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>3</div>
+                        <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Funding Your Account</h3>
-                                        <p className={styles.stepDescription}>
+                            <p className={styles.stepDescription}>
                                             Deposit funds into your account using bank transfers, credit cards, or cryptocurrency transfers. Start with an amount you're comfortable with, and remember to only invest what you can afford to lose.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
                         </section>
 
                         <section className={styles.section}>
@@ -277,24 +281,24 @@ function Guide() {
                         </section>
 
                         <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                <h2>TRADING BASICS</h2>
-                            </div>
-                            
-                            <div className={styles.guideContent}>
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>1</div>
-                                    <div className={styles.stepContent}>
-                                        <h3 className={styles.stepTitle}>Understanding Market Orders</h3>
-                                        <p className={styles.stepDescription}>
-                                            Market orders are executed immediately at the current market price. They're ideal when you want to buy or sell quickly without worrying about price fluctuations.
-                                        </p>
-                                    </div>
-                                </div>
+                    <div className={styles.sectionHeader}>
+                        <h2>TRADING BASICS</h2>
+                    </div>
 
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>2</div>
-                                    <div className={styles.stepContent}>
+                            <div className={styles.guideContent}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>1</div>
+                        <div className={styles.stepContent}>
+                                        <h3 className={styles.stepTitle}>Understanding Market Orders</h3>
+                            <p className={styles.stepDescription}>
+                                            Market orders are executed immediately at the current market price. They're ideal when you want to buy or sell quickly without worrying about price fluctuations.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>2</div>
+                        <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Using Limit Orders</h3>
                                         <p className={styles.stepDescription}>
                                             Limit orders allow you to set a specific price at which you want to buy or sell. These orders are executed only when the market reaches your designated price point, giving you more control over your entry and exit positions.
@@ -306,34 +310,34 @@ function Guide() {
                                     <div className={styles.stepNumber}>3</div>
                                     <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Setting Stop Losses</h3>
-                                        <p className={styles.stepDescription}>
+                            <p className={styles.stepDescription}>
                                             Stop losses automatically sell your assets when they reach a certain price, helping to minimize losses in volatile markets. This is an essential risk management tool for all traders.
-                                        </p>
-                                    </div>
-                                </div>
+                            </p>
+                        </div>
+                    </div>
 
-                                <div className={styles.guideTip}>
-                                    <div className={styles.guideTipTitle}>
-                                        <FaLightbulb /> Pro Tip
-                                    </div>
-                                    <p className={styles.guideTipContent}>
+                    <div className={styles.guideTip}>
+                        <div className={styles.guideTipTitle}>
+                            <FaLightbulb /> Pro Tip
+                        </div>
+                        <p className={styles.guideTipContent}>
                                         Always diversify your crypto portfolio to spread risk across different assets. Don't put all your investment into a single cryptocurrency.
-                                    </p>
-                                </div>
-                            </div>
+                        </p>
+                    </div>
+                </div>
                         </section>
 
                         <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeader}>
                                 <h2>ADVANCED TRADING STRATEGIES</h2>
-                            </div>
-                            
+                    </div>
+
                             <div className={styles.guideContent}>
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>1</div>
-                                    <div className={styles.stepContent}>
-                                        <h3 className={styles.stepTitle}>Technical Analysis</h3>
-                                        <p className={styles.stepDescription}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>1</div>
+                        <div className={styles.stepContent}>
+                            <h3 className={styles.stepTitle}>Technical Analysis</h3>
+                            <p className={styles.stepDescription}>
                                             Learn to read charts and use technical indicators such as Moving Averages, RSI, and MACD to identify potential trading opportunities. CoinHive provides comprehensive charting tools with customizable indicators.
                                         </p>
                                     </div>
@@ -422,13 +426,13 @@ function Guide() {
                                         <h3 className={styles.stepTitle}>Enable Two-Factor Authentication</h3>
                                         <p className={styles.stepDescription}>
                                             Always enable 2FA on your account to add an extra layer of security. CoinHive supports app-based authentication via Google Authenticator or Authy.
-                                        </p>
-                                    </div>
-                                </div>
+                            </p>
+                        </div>
+                    </div>
 
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>2</div>
-                                    <div className={styles.stepContent}>
+                    <div className={styles.guideStep}>
+                        <div className={styles.stepNumber}>2</div>
+                        <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Use Strong, Unique Passwords</h3>
                                         <p className={styles.stepDescription}>
                                             Create a strong password that is unique to your CoinHive account. Consider using a password manager to generate and store complex passwords securely.
@@ -440,7 +444,7 @@ function Guide() {
                                     <div className={styles.stepNumber}>3</div>
                                     <div className={styles.stepContent}>
                                         <h3 className={styles.stepTitle}>Regularly Review Account Activity</h3>
-                                        <p className={styles.stepDescription}>
+                            <p className={styles.stepDescription}>
                                             Monitor your account activity and enable notifications for all transactions. Immediately report any suspicious activity to our support team.
                                         </p>
                                     </div>
@@ -452,8 +456,8 @@ function Guide() {
                                     </div>
                                     <p className={styles.guideTipContent}>
                                         Never share your password or 2FA codes with anyone, including CoinHive support staff. Our team will never ask for this information.
-                                    </p>
-                                </div>
+                            </p>
+                        </div>
                             </div>
                         </section>
 

@@ -72,11 +72,13 @@ function Dashboard()
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Settings</span>}
                             {collapsed && <div className={styles.tooltip}>Settings</div>}
                         </li>
-                        <li className={styles.guideButton}>
-                            <FaQuestion />
-                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
-                            {collapsed && <div className={styles.tooltip}>Guide</div>}
-                        </li>
+                        <Link to="/guide" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <li className={`${styles.guideButton} ${activeTab === 'guide' ? styles.active : ''}`} onClick={() => dispatch(setActiveTab('guide'))}>
+                                <FaQuestion />
+                                {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
+                                {collapsed && <div className={styles.tooltip}>Guide</div>}
+                            </li>
+                        </Link>
                     </ul>
                 </nav>
             </div>
