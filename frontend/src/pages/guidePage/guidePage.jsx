@@ -459,55 +459,6 @@ function Guide() {
 
                         <section className={styles.section}>
                             <div className={styles.sectionHeader}>
-                                <h2>TAX CONSIDERATIONS</h2>
-                            </div>
-                            
-                            <div className={styles.guideContent}>
-                                <p>Cryptocurrency transactions may have tax implications in your jurisdiction. While CoinHive doesn't provide tax advice, we recommend considering these general principles:</p>
-
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>1</div>
-                                    <div className={styles.stepContent}>
-                                        <h3 className={styles.stepTitle}>Record Keeping</h3>
-                                        <p className={styles.stepDescription}>
-                                            Maintain detailed records of all your cryptocurrency transactions, including dates, amounts, and values in your local currency at the time of transactions. CoinHive provides transaction history reports to assist with this.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>2</div>
-                                    <div className={styles.stepContent}>
-                                        <h3 className={styles.stepTitle}>Taxable Events</h3>
-                                        <p className={styles.stepDescription}>
-                                            In many jurisdictions, various cryptocurrency activities may be taxable events, including: selling crypto for fiat currency, trading one cryptocurrency for another, using cryptocurrency to purchase goods or services, and receiving mining rewards or staking income.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className={styles.guideStep}>
-                                    <div className={styles.stepNumber}>3</div>
-                                    <div className={styles.stepContent}>
-                                        <h3 className={styles.stepTitle}>Consult Professionals</h3>
-                                        <p className={styles.stepDescription}>
-                                            Tax laws regarding cryptocurrency vary by country and change frequently. Consider consulting with a tax professional who specializes in cryptocurrency to ensure compliance with your local regulations.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className={styles.guideTip}>
-                                    <div className={styles.guideTipTitle}>
-                                        <FaLightbulb /> Tax Reporting
-                                    </div>
-                                    <p className={styles.guideTipContent}>
-                                        CoinHive provides annual transaction reports that you can download for tax purposes, but these should be reviewed with your tax professional to ensure compliance with local regulations.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
                                 <h2>VISIT US</h2>
                             </div>
                             
