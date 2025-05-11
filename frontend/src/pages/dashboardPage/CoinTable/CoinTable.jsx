@@ -133,7 +133,11 @@ function CoinTable() {
                         </td>
                         <td>{coin.market_cap}</td>
                         <td>{coin.volume}</td>
-                        <td><button className={styles.button}>Trade</button></td>
+                        <td>
+                            <Link to={`/trade/${coin.symbol}`}>
+                                <button className={styles.button}>Trade</button>
+                            </Link>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

@@ -8,6 +8,7 @@ import CoinDetailsPage from './pages/coinDetailsPage/CoinDetailsPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import GuidePage from './pages/dashboardPage/guidePage/guidePage.jsx'
 import HomePage from './pages/dashboardPage/homePage/HomePage.jsx'
+import CoinTradePage from './pages/coinTradePage/CoinTrade.jsx'
 
 function App(){
     return (
@@ -23,6 +24,7 @@ function App(){
                     <Route path='guide' element={<GuidePage />} />
                 </Route>
 
+                 <Route path="/trade/:symbol" element={<CoinTradePage />} />
                 <Route path='/coin/:id' element={<CoinDetailsPage />} />
             </Route>
         </Routes>

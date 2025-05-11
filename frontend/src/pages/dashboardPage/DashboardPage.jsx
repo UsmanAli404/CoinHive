@@ -29,13 +29,13 @@ function Dashboard()
             if (!userId) return;
 
             try {
-                console.log("userId: ", userId);
+                // console.log("userId: ", userId);
                 const response = await getUserDataById({userId});
-                console.log(response);
+                // console.log(response);
                 if (response.success) {
-                    console.log("User Data:", response.userData);
+                    // console.log("User Data:", response.userData);
                 } else {
-                // console.error("Error:", response.message);
+                    console.error("Error:", response.message);
                 }
             } catch (error) {
                 console.error("Fetch failed:", error);

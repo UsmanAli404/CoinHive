@@ -1,0 +1,85 @@
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.toggle button {
+    padding: 10px 20px;
+    border: 2px solid var(--primary-color);
+    background-color: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle .active {
+    background-color: var(--primary-color);
+    color: #0f0f1a;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.inputGroup label {
+    font-size: 16px;
+    color: #cccccc;
+}
+
+.inputGroup input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background-color: #2e2e42;
+    color: #ffffff;
+}
+
+.info {
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #aaaaaa;
+}
+
+.tradeButton {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: #0f0f1a;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tradeButton:hover {
+    background-color: #00b89c;
+}
