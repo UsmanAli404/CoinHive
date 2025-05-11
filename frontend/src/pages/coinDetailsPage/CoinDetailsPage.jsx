@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 
@@ -13,51 +13,48 @@ import {
   Filler
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import { getMarketData } from '../../api/functions';
 import debounce from 'lodash.debounce';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, TimeScale, Filler);
 
 function CoinDetailsPage() {
   const { id } = useParams();
-  const socketRef = useRef(null);
   const [marketData, setMarketData] = useState([]);
   const [interval, setInterval] = useState('1h');
   const [limit, setLimit] = useState(10);
   const [loading, setLoading] = useState(true);
+  const socketRef = useRef(null); // store WebSocket in a ref
+
+  const sendParams = useCallback((symbol, interval, limit, refresh) => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        symbol,
+        interval,
+        limit,
+        refresh,
+        type: "market"
+      }));
+    } else {
+      console.warn('WebSocket is not open yet.');
+    }
+  }, []);
 
   useEffect(() => {
-    if (socketRef.current) {
-      socketRef.current.close(); // Clean up old socket
-    }
-
     const socket = new WebSocket('ws://localhost:4000');
     socketRef.current = socket;
 
     socket.onopen = () => {
       console.log("WebSocket connected");
-
-      // ✅ Send only after connection is confirmed open
-      socket.send(JSON.stringify({
-        symbol: id.toUpperCase(),
-        interval,
-        limit,
-        refresh: 3000
-      }));
+      sendParams(id.toUpperCase(), interval, limit, 3000);
     };
 
     socket.onmessage = (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-        if (msg.error) {
-          console.error("Server error:", msg.error);
-        } else if (msg.type === "marketData") {
-          console.log("Market Data:", msg.data);
-          setMarketData(msg.data);
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error("Invalid message from server:", event.data);
+      const msg = JSON.parse(event.data);
+      if (msg.error) {
+        console.error("Server error:", msg.error);
+      } else if (msg.type === "marketData") {
+        setMarketData(msg.data);
+        setLoading(false);
       }
     };
 
@@ -70,9 +67,13 @@ function CoinDetailsPage() {
     };
 
     return () => {
-      socket.close(); // Cleanup on unmount
+      socket.close();
     };
-  }, [id, interval, limit]);
+  }, [id, interval, limit, sendParams]);
+
+  useEffect(() => {
+    sendParams(id.toUpperCase(), interval, limit, 3000);
+  }, [id, interval, limit, sendParams]);
 
 
   const debouncedLimitChange = useCallback(
