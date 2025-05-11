@@ -6,7 +6,7 @@ import SignupPage from './pages/signupPage/SignupPage.jsx'
 import OtpPage from './pages/otpPage/OtpPage.jsx'
 import Dashboard from './pages/dashboardPage/DashboardPage.jsx'
 import CoinDetailsPage from './pages/coinDetailsPage/CoinDetailsPage.jsx';
-
+import GuidePage from './pages/guidePage/guidePage.jsx';
 function App(){
     return (
         <Routes>
@@ -16,6 +16,7 @@ function App(){
             <Route path='/otpPage' element={<OtpPage />}/>
             <Route path='/dashboard' element={<Dashboard />}/>
             <Route path="/coin/:id" element={<CoinDetailsPage/>}/>
+            <Route path="/guide" element={<GuidePage />}/>
         </Routes>
     )
 }
