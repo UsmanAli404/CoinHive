@@ -133,25 +133,45 @@ export const getCoins = async (req, res) => {
       sparkline = false
     } = req.body;
 
-    const url = 'https://api.coingecko.com/api/v3/coins/markets';
-    const params = {
-      vs_currency,
-      order,
-      per_page,
-      page,
-      sparkline,
-      price_change_percentage: '24h'
-    };
+    const pairSuffix = vs_currency.toUpperCase() === 'USD' ? 'USDT' : vs_currency.toUpperCase();
 
-    const { data } = await axios.get(url, { params });
+    // Fetch 24hr ticker data for all symbols
+    const { data: tickers } = await axios.get('https://api.binance.com/api/v3/ticker/24hr');
 
-    const formatted = data.map(coin => ({
+    // Filter only symbols ending with USDT
+    const usdtPairs = tickers.filter(ticker => ticker.symbol.endsWith(pairSuffix));
+
+    // Approximate market cap using: price * quoteVolume
+    const enriched = usdtPairs.map(ticker => {
+      const price = parseFloat(ticker.lastPrice);
+      const quoteVolume = parseFloat(ticker.quoteVolume);
+      return {
+        name: ticker.symbol.replace(pairSuffix, ''),
+        symbol: ticker.symbol,
+        price,
+        volume: quoteVolume,
+        marketCap: price * quoteVolume,
+        change_24h: parseFloat(ticker.priceChangePercent)
+      };
+    });
+
+    // Sort by market cap desc if requested
+    if (order === 'market_cap_desc') {
+      enriched.sort((a, b) => b.marketCap - a.marketCap);
+    }
+
+    // Paginate
+    const start = (page - 1) * per_page;
+    const paginated = enriched.slice(start, start + per_page);
+
+    // Format response
+    const formatted = paginated.map(coin => ({
       name: coin.name,
-      symbol: coin.symbol.toUpperCase(),
-      price: `$${coin.current_price.toLocaleString()}`,
-      market_cap: `$${coin.market_cap.toLocaleString()}`,
-      volume: `$${coin.total_volume.toLocaleString()}`,
-      change_24h: `${coin.price_change_percentage_24h?.toFixed(2)}%`
+      symbol: coin.symbol,
+      price: `$${coin.price.toLocaleString()}`,
+      market_cap: `$${coin.marketCap.toLocaleString()}`,
+      volume: `$${coin.volume.toLocaleString()}`,
+      change_24h: `${coin.change_24h.toFixed(2)}%`
     }));
 
     res.json(formatted);
