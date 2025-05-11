@@ -1,43 +1,41 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/logo.svg';
 import Loading from '../../components/loading/Loading';
-import './splash.css'
+import './splash.css';
 import { checkAuth } from '../../api/functions';
 
-//need to check if a user is logged in or not?
-//if logged in then, take directly to dashboard page
-
-function SplashScreen(){
+function SplashScreen() {
     const navigate = useNavigate();
-    
-    useEffect(()=>{
-        const authStatus = isUserAuthenticated();
-        let timer;
-        if(authStatus){
-            timer = setTimeout(()=>{navigate('/dashboard')}, 2000);
-        } else {
-            timer = setTimeout(()=>{navigate('/login')}, 2000);
-        }
-        return ()=>clearTimeout(timer);
-    }, []);
 
-    const isUserAuthenticated = async () => {
-        try{
-            const response = await checkAuth();
-            return response.success;
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            try {
+                const response = await checkAuth();
+                console.log("Auth Response:", response);
 
-    return(
-        <>
+                let timer;
+                if (response.data?.success) {
+                    timer = setTimeout(() => navigate('/dashboard'), 2000);
+                } else {
+                    timer = setTimeout(() => navigate('/login'), 2000);
+                }
+
+                return () => clearTimeout(timer);
+            } catch (err) {
+                console.error("Error during authentication:", err);
+                navigate('/login'); // fallback
+            }
+        };
+
+        checkAuthentication();
+    }, [navigate]);
+
+    return (
         <div id='bigDiv'>
-            <img id='logo' src={logo} width={180} alt="" />
-            <div id='loadingDiv'><Loading></Loading></div>
+            <img id='logo' src={logo} width={180} alt="Logo" />
+            <div id='loadingDiv'><Loading /></div>
         </div>
-        </>
     );
 }
 

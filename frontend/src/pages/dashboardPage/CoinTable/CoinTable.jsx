@@ -49,6 +49,8 @@ function CoinTable() {
             console.log(response);
 
             if (response.status === 200) {
+                // console.log("Fetched data:", response.data);
+                // console.log("Is Array:", Array.isArray(response.data));
                 dispatch(setCoins(response.data));
                 dispatch(setFetchedBlockPage(apiPage));
             } else {

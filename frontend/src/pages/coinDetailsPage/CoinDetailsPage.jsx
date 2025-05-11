@@ -104,7 +104,7 @@ const chartData = {
         beginAtZero: false
       }
     }
-  };  
+  };
 
   return (
     <div style={{ padding: '20px' }}>
