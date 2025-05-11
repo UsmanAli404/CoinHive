@@ -1,4 +1,4 @@
-import styles      from './UserProfile.module.css'
+import styles      from './userProfile.module.css'
 import profileImage from '../../../assets/coinhive_favicon.svg'
 
 function UserProfile({ profile })

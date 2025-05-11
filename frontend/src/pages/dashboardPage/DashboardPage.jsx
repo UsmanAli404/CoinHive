@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import styles from './dashboard.module.css'
 import logo from '../../assets/coinhive_favicon.svg'
@@ -14,15 +14,36 @@ import {
 } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveTab, setCollapsed } from '../../slices/dashboardSlice.js'
+import { getUserDataById } from '../../api/functions.js'
 
 function Dashboard()
 {
     const dispatch = useDispatch();
     const {activeTab, collapsed} = useSelector(state => state.dashboard);
+    const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+
+        const fetchUserData = async () => {
+            if (!userId) return;
+
+            try {
+                console.log("userId: ", userId);
+                const response = await getUserDataById(userId);
+                if (response.success) {
+                console.log("User Data:", response.userData);
+                } else {
+                console.error("Error:", response.message);
+                }
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        }
+
+        fetchUserData();
+
+    }, [userId]);
 
     return (
         <div className={styles.dashboardContainer}>

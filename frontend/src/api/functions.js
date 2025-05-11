@@ -24,15 +24,19 @@ export const sendVerificationOtp = async(data) => {
     return API.post('/auth/send-verification-otp', data);
 };
 
-export const getUserData = async(data)=>{
-    return API.post('/auth/get-user-data', (data));
+export const getUserDataByEmail = async(data)=>{
+    return API.post('/user/data-by-email', data);
+}
+
+export const getUserDataById = async(data)=>{
+    return API.post('/user/data-by-id', data);
 }
 
 export const checkAuth = async () => {
     return API.post('/auth/is-authenticated');
 };
 
-//password reset
+//password reset otp
 export const sendResetOtp = async (email) => {
     return API.post('/auth/send-reset-otp', { email });
 };

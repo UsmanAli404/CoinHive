@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import styles from './CoinTable.module.css';
+import { useEffect } from 'react';
+import styles from './coinTable.module.css';
 import { getCoins } from '../../../api/functions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { 

@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import logo from '../../assets/logo.svg';
 import Loading from '../../components/loading/Loading';
 import './splash.css';
 import { checkAuth } from '../../api/functions';
+import { setUserId } from '../../slices/userSlice.js';
 
 function SplashScreen() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -16,6 +19,7 @@ function SplashScreen() {
 
                 let timer;
                 if (response.data?.success) {
+                    dispatch(setUserId(response.data.userId));
                     timer = setTimeout(() => navigate('/dashboard'), 2000);
                 } else {
                     timer = setTimeout(() => navigate('/login'), 2000);
