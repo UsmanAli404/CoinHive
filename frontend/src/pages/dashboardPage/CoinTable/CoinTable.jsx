@@ -7,7 +7,6 @@ import {
     setSortOrder, 
     setCurrentPage, 
     setCoins, 
-    setFetchedBlockPage, 
     setInputPage 
 } from '../../../slices/coinTableSlice.js';
 import { Link } from 'react-router-dom';
@@ -27,7 +26,6 @@ function CoinTable() {
     const itemsPerPage = 10;
     const totalItems = 400;
 
-    // Sort handler
     const handleSort = (field) => {
         if (sortField === field) {
             dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'));
@@ -37,7 +35,6 @@ function CoinTable() {
         }
     };
 
-    // Fetch once on initial load
     const fetchCoins = async () => {
         try {
             const response = await getCoins({
@@ -58,30 +55,25 @@ function CoinTable() {
         }
     };
 
-    // Run once when component mounts
     useEffect(() => {
         fetchCoins();
     }, []);
 
-    // Sync inputPage with currentPage
     useEffect(() => {
         dispatch(setInputPage(currentPage));
     }, [currentPage]);
 
-    // Filter coins
     const filteredCoins = coins.filter(coin =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Sort coins
     const sortedCoins = [...filteredCoins].sort((a, b) => {
         const num_a = Number(a[sortField]?.replace(/[$,%]/g, '') || 0);
         const num_b = Number(b[sortField]?.replace(/[$,%]/g, '') || 0);
         return sortOrder === 'asc' ? num_a - num_b : num_b - num_a;
     });
 
-    // Paginate
     const startIndex = (currentPage - 1) * itemsPerPage;
     const totalPages = Math.ceil(sortedCoins.length / itemsPerPage);
     const visibleCoins = sortedCoins.slice(startIndex, startIndex + itemsPerPage);

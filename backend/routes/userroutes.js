@@ -4,10 +4,7 @@ import { getUserDataByEmail, getUserDataById } from '../controllers/UserDataCont
 
 const userRouter = express.Router();
 
-// userRouter.get('/data-by-email', userAuth, getUserDataByEmail);
-// userRouter.get('/data-by-id', userAuth, getUserDataById);
-
-userRouter.post('/data-by-email', getUserDataByEmail);
-userRouter.post('/data-by-id', getUserDataById);
+userRouter.post('/data-by-email', userAuth, getUserDataByEmail);
+userRouter.post('/data-by-id', userAuth, getUserDataById);
 
 export default userRouter;

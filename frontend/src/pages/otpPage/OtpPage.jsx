@@ -4,7 +4,7 @@ import shield from '../../assets/shield_dark.svg';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOtp, setTimer, setTimerString } from '../../slices/otpSlice';
-import { verifyAccount, sendVerificationOtp, getUserDataByEmail } from '../../api/functions';
+import { verifyAccount, sendVerificationOtp, getUserDataByEmailWithoutAuth } from '../../api/functions';
 import { showMessage, hideMessage, setMessage} from '../../slices/messageSlice.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -88,7 +88,7 @@ function OtpPage() {
     const fetchOTPExpiryData = async ()=>{
         try{
             console.log(email);
-            const response = await getUserDataByEmail({email});
+            const response = await getUserDataByEmailWithoutAuth({email});
             if(response.data.success){
                 dispatch(setTimer(response.data.userData.verifyOTPExpiryAt));
                 console.log(response.data.userData.verifyOTPExpiryAt);

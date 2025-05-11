@@ -254,12 +254,30 @@ export const verifyEmail = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
 export const isAuthenticated = async (req, res) => {
   try {
     return res.json({ success: true, userId: req.body.userId });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
+};
+
+export const getUserDataByEmail = async (req, res) => {
+  console.log(req.body);
+  const { email } = req.body;
+
+  if (!email) {
+    return res.json({ success: false, message: "Missing Details" });
+  }
+
+  const existingUser = await userModel.findOne({ email });
+
+  if (existingUser) {
+    return res.json({ success: true, userData: existingUser });
+  }
+
+  return res.status(404).json({ success: false, message: "User not found" });
 };
 
 export const sendPasswordResetOtp = async (req, res) => {

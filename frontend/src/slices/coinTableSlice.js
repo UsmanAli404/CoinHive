@@ -5,7 +5,6 @@ const initialState = {
     sortOrder: "desc",
     currentPage: 1,
     coins: [],
-    fetchedBlockPage: null,
     inputPage: 1,
 };
 
@@ -25,9 +24,6 @@ const coinTableSlice = createSlice({
         setCoins: (state, action) => {
             state.coins = action.payload;
         },
-        setFetchedBlockPage: (state, action) => {
-            state.fetchedBlockPage = action.payload;
-        },
         setInputPage: (state, action) => {
             state.inputPage = action.payload;
         },
@@ -39,7 +35,6 @@ export const {
     setSortOrder,
     setCurrentPage,
     setCoins,
-    setFetchedBlockPage,
     setInputPage,
 } = coinTableSlice.actions;
 

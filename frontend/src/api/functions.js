@@ -24,6 +24,10 @@ export const sendVerificationOtp = async(data) => {
     return API.post('/auth/send-verification-otp', data);
 };
 
+export const getUserDataByEmailWithoutAuth = async(data)=>{
+    return API.post('/auth/get-user-data-by-email', data);
+}
+
 export const getUserDataByEmail = async(data)=>{
     return API.post('/user/data-by-email', data);
 }
