@@ -2,6 +2,7 @@ import userModel from "../models/usermodels.js";
 
 //by email
 export const getUserDataByEmail = async (req, res) => {
+  console.log(req.body);
   const { email } = req.body;
 
   if (!email) {

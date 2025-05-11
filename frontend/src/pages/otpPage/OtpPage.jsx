@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './OtpPage.module.css';
 import shield from '../../assets/shield_dark.svg';
 import { useLocation } from 'react-router-dom';
@@ -87,6 +87,7 @@ function OtpPage() {
 
     const fetchOTPExpiryData = async ()=>{
         try{
+            console.log(email);
             const response = await getUserDataByEmail({email});
             if(response.data.success){
                 dispatch(setTimer(response.data.userData.verifyOTPExpiryAt));

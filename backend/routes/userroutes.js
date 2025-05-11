@@ -7,7 +7,7 @@ const userRouter = express.Router();
 // userRouter.get('/data-by-email', userAuth, getUserDataByEmail);
 // userRouter.get('/data-by-id', userAuth, getUserDataById);
 
-userRouter.get('/data-by-email', getUserDataByEmail);
-userRouter.get('/data-by-id', getUserDataById);
+userRouter.post('/data-by-email', getUserDataByEmail);
+userRouter.post('/data-by-id', getUserDataById);
 
 export default userRouter;

@@ -30,11 +30,12 @@ function Dashboard()
 
             try {
                 console.log("userId: ", userId);
-                const response = await getUserDataById(userId);
+                const response = await getUserDataById({userId});
+                console.log(response);
                 if (response.success) {
-                console.log("User Data:", response.userData);
+                    console.log("User Data:", response.userData);
                 } else {
-                console.error("Error:", response.message);
+                // console.error("Error:", response.message);
                 }
             } catch (error) {
                 console.error("Fetch failed:", error);
