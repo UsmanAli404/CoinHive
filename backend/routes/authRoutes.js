@@ -1,12 +1,21 @@
-import express from 'express'
-import {isAuthenticated, login, logout, register, sendVerificationOtp, resetPassword, sendPasswordResetOtp, verifyEmail, getUserData} from '../controllers/authControllers.js'
+import express from 'express';
+import {
+    isAuthenticated, 
+    login, 
+    logout, 
+    register, 
+    sendVerificationOtp, 
+    resetPassword, 
+    sendPasswordResetOtp, 
+    verifyEmail,
+} from '../controllers/authControllers.js';
+
 import userAuth from '../middleware/auth.js';
 
 const authenticationRouter = express.Router();
 authenticationRouter.post('/register', register)
 authenticationRouter.post('/login', login)
 authenticationRouter.post('/logout', userAuth, logout)
-authenticationRouter.post('/get-user-data', getUserData)
 authenticationRouter.post('/send-verification-otp', sendVerificationOtp)
 authenticationRouter.post('/verify-account', verifyEmail)
 authenticationRouter.post('/is-authenticated', userAuth, isAuthenticated)

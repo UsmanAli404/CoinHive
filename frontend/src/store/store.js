@@ -4,6 +4,7 @@ import messageReducer from '../slices/messageSlice.js';
 import loginReducer from '../slices/loginSlice.js';
 import dashboardReducer from '../slices/dashboardSlice.js';
 import coinTableReducer from '../slices/coinTableSlice.js';
+import userReducer from '../slices/userSlice.js';
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     login: loginReducer,
     dashboard: dashboardReducer,
     coinTable: coinTableReducer,
+    user: userReducer
   },
 });

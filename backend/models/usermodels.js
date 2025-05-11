@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     verifyOTPExpiryAt:{type:Number,default: 0},
     isVerified:{type:Boolean,default:false},
     resetOTP :{type:String,default:''},
-    resetOTPExpireAt:{type:Number,default:0 }
+    resetOTPExpireAt:{type:Number,default:0 },
+    joinedAt: { type: Date, default: Date.now }
 })
 
 const userModel = mongoose.models.user || mongoose.model('user',userSchema);

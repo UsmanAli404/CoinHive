@@ -3,7 +3,7 @@ import connectDB from "./config/mogodb.js";
 import cors from "cors";
 import 'dotenv/config';
 import cookieParser from "cookie-parser"
-import authenticationRouter from "./routes/routes.js"
+import authenticationRouter from "./routes/authRoutes.js"
 import userRouter from "./routes/userroutes.js";
 import marketRoutes from "./routes/marketRoutes.js";
 import transactionRouter from "./routes/transactionRoutes.js";
