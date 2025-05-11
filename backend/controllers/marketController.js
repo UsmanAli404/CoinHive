@@ -1,71 +1,9 @@
 import WebSocket from "ws";
 import axios from "axios";
 
-const VALID_INTERVALS = ['1m', '5m', '15m', '1h', '4h', '1d'];
 
-const validateSymbol = async (symbol) => {
-  try {
-    const { data } = await axios.get('https://api1.binance.com/api/v3/exchangeInfo');
-    return data.symbols.some(s => s.symbol === symbol.toUpperCase());
-  } catch (err) {
-    console.error("Validation failed:", err.message);
-    return false;
-  }
-};
 
-export const handleWebSocketConnection = (ws) => {
-  console.log("New WebSocket connection");
 
-  let streamParams = {
-    symbol: 'BTCUSDT',
-    interval: '1h',
-    limit: 100,
-    refresh: 5000
-
-  };
-
-  let intervalId = streamMarketData(ws, streamParams);
-
-  ws.on("message", async (message) => {
-    try {
-      const data = JSON.parse(message);
-      const { symbol, interval, limit, refresh } = data;
-
-      if (refresh && (typeof refresh !== 'number' || refresh < 1000)) {
-        return ws.send(JSON.stringify({ error: "Invalid refresh interval (min: 1000ms)" }));
-      }
-
-      const isValid = await validateSymbol(symbol);
-      if (!isValid) {
-        return ws.send(JSON.stringify({ error: "Invalid symbol" }));
-      }
-
-      if (interval && !VALID_INTERVALS.includes(interval)) {
-        return ws.send(JSON.stringify({ error: "Invalid interval" }));
-      }
-
-      streamParams = {
-        symbol: symbol?.toUpperCase() || streamParams.symbol,
-        interval: interval || streamParams.interval,
-        limit: limit || streamParams.limit,
-        refresh: refresh || streamParams.refresh
-      };
-
-      clearInterval(intervalId);
-      intervalId = streamMarketData(ws, streamParams);
-
-    } catch (err) {
-      console.error("Error parsing message:", err.message);
-    }
-  });
-
-  ws.on("close", () => {
-    console.log("WebSocket connection closed");
-    clearInterval(intervalId);
-  });
-
-  ws.on("error", (err) => console.error("WebSocket error:", err));
-};
 
 let validSymbolsCache = [];
 
@@ -108,29 +46,7 @@ export const getMarketData = async (req, res) => {
 
 
 
-export const streamMarketData = (ws, { symbol, interval, limit, refresh }) => {
-  return setInterval(async () => {
-    try {
-      const response = await axios.get('https://api1.binance.com/api/v3/klines', {
-        params: { symbol, interval, limit }
-      });
 
-      const formatted = response.data.map(c => ({
-        time: c[0],
-        open: parseFloat(c[1]),
-        high: parseFloat(c[2]),
-        low: parseFloat(c[3]),
-        close: parseFloat(c[4]),
-        volume: parseFloat(c[5])
-      }));
-
-      ws.send(JSON.stringify({ type: 'marketData', data: formatted }));
-    } catch (err) {
-      console.error('Error fetching market data:', err.message);
-      ws.send(JSON.stringify({ error: "Failed to fetch data" }));
-    }
-  }, refresh);
-};
 
 
 export const getCoins = async (req, res) => {
@@ -145,13 +61,10 @@ export const getCoins = async (req, res) => {
 
     const pairSuffix = vs_currency.toUpperCase() === 'USD' ? 'USDT' : vs_currency.toUpperCase();
 
-    // Fetch 24hr ticker data for all symbols
     const { data: tickers } = await axios.get('https://api.binance.com/api/v3/ticker/24hr');
 
-    // Filter only symbols ending with USDT
     const usdtPairs = tickers.filter(ticker => ticker.symbol.endsWith(pairSuffix));
 
-    // Approximate market cap using: price * quoteVolume
     const enriched = usdtPairs.map(ticker => {
       const price = parseFloat(ticker.lastPrice);
       const quoteVolume = parseFloat(ticker.quoteVolume);
@@ -165,16 +78,13 @@ export const getCoins = async (req, res) => {
       };
     });
 
-    // Sort by market cap desc if requested
     if (order === 'market_cap_desc') {
       enriched.sort((a, b) => b.marketCap - a.marketCap);
     }
 
-    // Paginate
     const start = (page - 1) * per_page;
     const paginated = enriched.slice(start, start + per_page);
 
-    // Format response
     const formatted = paginated.map(coin => ({
       name: coin.name,
       symbol: coin.symbol,
@@ -190,6 +100,7 @@ export const getCoins = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch coins' });
   }
 };
+
 
 
 export const getAllCoins = async (req, res) => {
