@@ -3,8 +3,63 @@ import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import CoinTable from '../coinTable/CoinTable';
 import UserProfile from '../userProfile/UserProfile';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getUserDataById, getUserPortfolio } from '../../../api/functions';
+import { useDispatch } from 'react-redux';
+import { setUserBalance, setUserEmail, setUserName, setUserProfileData } from '../../../slices/userSlice';
 
 function HomePage() {
+    const dispatch = useDispatch();
+    const userId = useSelector((state) => state.user.userId);
+
+    const [profile, setProfile] = useState(null);
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            if (!userId) return;
+
+            try {
+                const userResponse = await getUserDataById({ userId });
+                const email = userResponse.data.userData.email;
+                const name = userResponse.data.userData.name;
+                const balance = userResponse.data.userData.balance;
+                console.log(userResponse);
+
+                dispatch(setUserEmail(email));
+                dispatch(setUserName(name));
+                dispatch(setUserBalance(balance));
+
+                const portfolioResponse = await getUserPortfolio({ userEmail: email });
+
+                if (userResponse.data.success && portfolioResponse.data.success) {
+                    const userData = userResponse.data.userData;
+                    const portfolio = portfolioResponse.data.portfolio;
+
+                    const profileData = {
+                        name: userData.name,
+                        joinedAt: userData.joinedAt,
+                        balance: parseFloat(portfolioResponse.data.balance),
+                        assets: portfolio.inventory.map(item => ({
+                            asset: item.asset,
+                            quantity: item.quantity,
+                            averagePrice: item.averagePrice,
+                        }))
+                    };
+
+                    dispatch(setUserProfileData(profileData));
+                    setProfile(profileData);
+                } else {
+                    console.error("Error in user or portfolio response");
+                }
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        };
+
+        fetchProfileData();
+    }, [userId]);
+
     return (
         <div className={styles.dashboardMain}>
             <div className={styles.contentLeft}>
@@ -37,7 +92,7 @@ function HomePage() {
             </div>
 
             <div className={styles.contentRight}>
-                <UserProfile profile={{}} />
+                <UserProfile profile={profile} />
             </div>
         </div>
     );

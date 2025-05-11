@@ -18,7 +18,7 @@ function CoinTable() {
     const {
         sortField,
         sortOrder, 
-        currentPage, 
+        currentPage,
         coins,
         inputPage
     } = useSelector(state => state.coinTable);

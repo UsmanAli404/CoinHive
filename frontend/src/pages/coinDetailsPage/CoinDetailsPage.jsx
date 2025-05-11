@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 
@@ -20,30 +20,60 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip,
 
 function CoinDetailsPage() {
   const { id } = useParams();
+  const socketRef = useRef(null);
   const [marketData, setMarketData] = useState([]);
   const [interval, setInterval] = useState('1h');
   const [limit, setLimit] = useState(10);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    try {
-      const res = await getMarketData({
-        symbol: id.toUpperCase(),
-        interval: interval,
-        limit: limit
-      });
-      console.log(res);
-      setMarketData(res.data);
-    } catch (err) {
-      console.error('Failed to fetch data', err);
-    } finally {
-        setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
+    if (socketRef.current) {
+      socketRef.current.close(); // Clean up old socket
+    }
+
+    const socket = new WebSocket('ws://localhost:4000');
+    socketRef.current = socket;
+
+    socket.onopen = () => {
+      console.log("WebSocket connected");
+
+      // ✅ Send only after connection is confirmed open
+      socket.send(JSON.stringify({
+        symbol: id.toUpperCase(),
+        interval,
+        limit,
+        refresh: 3000
+      }));
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        if (msg.error) {
+          console.error("Server error:", msg.error);
+        } else if (msg.type === "marketData") {
+          console.log("Market Data:", msg.data);
+          setMarketData(msg.data);
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error("Invalid message from server:", event.data);
+      }
+    };
+
+    socket.onerror = (err) => {
+      console.error("WebSocket error:", err);
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket closed");
+    };
+
+    return () => {
+      socket.close(); // Cleanup on unmount
+    };
   }, [id, interval, limit]);
+
 
   const debouncedLimitChange = useCallback(
     debounce((value) => {

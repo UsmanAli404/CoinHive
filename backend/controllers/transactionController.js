@@ -23,7 +23,7 @@ export const makeTransaction = async (req, res) => {
         }
 
       
-        const priceResponse = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${asset.toUpperCase()}USDT`);
+        const priceResponse = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${asset.toUpperCase()}`);
         const latestPrice = parseFloat(priceResponse.data.price);
 
         if (!latestPrice || isNaN(latestPrice)) {

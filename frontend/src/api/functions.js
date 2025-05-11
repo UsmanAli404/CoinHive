@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import API from "./api";
 
 //register
@@ -56,4 +57,16 @@ export const getMarketData = async(data) => {
 
 export const getCoins = async (data) => {
     return API.post('/market/coins', data);
+}
+
+export const trade = async (data) => {
+    return API.post('/transaction/make-transaction', data);
+}
+
+export const getUserPortfolio = async (data) => {
+    return API.post('/user/portfolio-by-email', data);
+}
+
+export const getUserEmailFromId = async (data) => {
+    return API.post('/user/email-from-id', data);
 }

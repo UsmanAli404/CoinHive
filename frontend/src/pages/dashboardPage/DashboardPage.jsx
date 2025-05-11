@@ -15,36 +15,37 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveTab, setCollapsed } from '../../slices/dashboardSlice.js'
 import { getUserDataById } from '../../api/functions.js'
+import { setUserEmail, setUserName } from '../../slices/userSlice.js'
 
 function Dashboard()
 {
     const dispatch = useDispatch();
     const {activeTab, collapsed} = useSelector(state => state.dashboard);
-    const userId = useSelector((state) => state.user.userId);
+    // const userId = useSelector((state) => state.user.userId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        const fetchUserData = async () => {
-            if (!userId) return;
+        // const fetchUserData = async () => {
+        //     if (!userId) return;
 
-            try {
-                // console.log("userId: ", userId);
-                const response = await getUserDataById({userId});
-                // console.log(response);
-                if (response.success) {
-                    // console.log("User Data:", response.userData);
-                } else {
-                    console.error("Error:", response.message);
-                }
-            } catch (error) {
-                console.error("Fetch failed:", error);
-            }
-        }
+        //     try {
+        //         const response = await getUserDataById({userId});
+        //         console.log(response);
+        //         if (response.success) {
+        //             dispatch(setUserEmail(response.data.userData.email));
+        //             dispatch(setUserName(response.data.userData.name));
+        //         } else {
+        //             console.error("Error:", response.message);
+        //         }
+        //     } catch (error) {
+        //         console.error("Fetch failed:", error);
+        //     }
+        // }
 
-        fetchUserData();
+        // fetchUserData();
 
-    }, [userId]);
+    }, []);
 
     return (
         <div className={styles.dashboardContainer}>
