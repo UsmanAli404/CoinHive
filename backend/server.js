@@ -17,7 +17,14 @@ const port = process.env.PORT || 4000;
 connectDB();
 app.use(express.json());
 app.use(cookieParser());
+<<<<<<< HEAD
 app.use(cors({ origin: "http://localhost:5173", credentials: false }));
+=======
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true 
+}));
+>>>>>>> df3ef5dd9dfb581bdd942d959c3fc1cf9b317ea7
 
 app.get("/", (req, res) => res.send("Server is Working"));
 app.use("/api/auth", authenticationRouter);

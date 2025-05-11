@@ -28,8 +28,12 @@ function OtpPage() {
 
     const verify = async (e) => {
         e.preventDefault();
-        console.log("userId:", userId);
-        console.log("OTP submitted:", otp);
+
+        dispatch(setMessage("Please wait..."));
+        dispatch(showMessage());
+
+        // console.log("userId:", userId);
+        // console.log("OTP submitted:", otp);
 
         if(!otp){
             dispatch(setMessage("OTP is missing!"));
@@ -39,7 +43,7 @@ function OtpPage() {
 
         try{
             const response = await verifyAccount({userId: userId, otp: otp});
-            console.log(response);
+            // console.log(response);
 
             if(response.data.success){
                 dispatch(setMessage("Successfully Verified!"));
@@ -57,6 +61,8 @@ function OtpPage() {
             }
         } catch(err){
             console.error(err);
+            dispatch(setMessage("An Error Occured: please try again later!"));
+            dispatch(showMessage());
         }
     };
 
@@ -98,9 +104,10 @@ function OtpPage() {
 
     useEffect(()=>{
         if (!userId || !email || !name) {
-            dispatch(setMessage("Missing verification details. Please register again."));
+            dispatch(setMessage(""));
             dispatch(showMessage());
             navigate('/signup');
+            return;
         }
 
         otpInputRef.current.focus();
@@ -138,7 +145,6 @@ function OtpPage() {
             <img className={styles.img} src={shield} width={100} alt="" />
             <div className={styles.otpBox}>
                 <h2 className={styles.title}>Email Verification</h2>
-                {/* <p>An OTP has been sent to your provided email address.</p> */}
                 <div className={styles.inputDiv}>
                     <input
                         ref={otpInputRef}
@@ -152,7 +158,7 @@ function OtpPage() {
                     <button onClick={resendOtp} className={styles.button2}>Resend Otp</button>
                 </div>
                 {isMessageVisible && <div className={styles.messageDiv}>{message}</div>}
-                <p className={styles.timer}>{timerString}</p>
+                <p className={styles.timer}>OTP expiry in: {timerString}</p>
             </div>
         </div>
     );

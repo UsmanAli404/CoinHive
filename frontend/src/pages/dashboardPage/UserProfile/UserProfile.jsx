@@ -1,6 +1,5 @@
-import React from 'react'
 import styles      from './UserProfile.module.css'
-import profileImage from '../../../assets/logo.svg'
+import profileImage from '../../../assets/coinhive_favicon.svg'
 
 function UserProfile({ profile })
 {

@@ -48,7 +48,7 @@ function SignupPage() {
         try {
             let userData = {name: name, email:email, password:password};
             let response = await registerUser(userData);
-            console.log(response);
+            // console.log(response);
             if(response.data.message==="User already exists"){
                 dispatch(setMessage("User already exists!"));
                 dispatch(showMessage());
