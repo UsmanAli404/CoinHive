@@ -19,15 +19,21 @@ export const handleWebSocketConnection = (ws) => {
   let streamParams = {
     symbol: 'BTCUSDT',
     interval: '1h',
-    limit: 100
+    limit: 100,
+    refresh: 5000
+
   };
 
-  const intervalId = streamMarketData(ws, streamParams);
+  let intervalId = streamMarketData(ws, streamParams);
 
   ws.on("message", async (message) => {
     try {
       const data = JSON.parse(message);
-      const { symbol, interval, limit } = data;
+      const { symbol, interval, limit, refresh } = data;
+
+      if (refresh && (typeof refresh !== 'number' || refresh < 1000)) {
+        return ws.send(JSON.stringify({ error: "Invalid refresh interval (min: 1000ms)" }));
+      }
 
       const isValid = await validateSymbol(symbol);
       if (!isValid) {
@@ -38,12 +44,16 @@ export const handleWebSocketConnection = (ws) => {
         return ws.send(JSON.stringify({ error: "Invalid interval" }));
       }
 
-      streamParams.symbol = symbol?.toUpperCase() || streamParams.symbol;
-      streamParams.interval = interval || streamParams.interval;
-      streamParams.limit = limit || streamParams.limit;
+      streamParams = {
+        symbol: symbol?.toUpperCase() || streamParams.symbol,
+        interval: interval || streamParams.interval,
+        limit: limit || streamParams.limit,
+        refresh: refresh || streamParams.refresh
+      };
 
       clearInterval(intervalId);
-      streamMarketData(ws, streamParams);
+      intervalId = streamMarketData(ws, streamParams);
+
     } catch (err) {
       console.error("Error parsing message:", err.message);
     }
@@ -98,7 +108,7 @@ export const getMarketData = async (req, res) => {
 
 
 
-export const streamMarketData = (ws, { symbol, interval, limit }) => {
+export const streamMarketData = (ws, { symbol, interval, limit, refresh }) => {
   return setInterval(async () => {
     try {
       const response = await axios.get('https://api1.binance.com/api/v3/klines', {
@@ -119,7 +129,7 @@ export const streamMarketData = (ws, { symbol, interval, limit }) => {
       console.error('Error fetching market data:', err.message);
       ws.send(JSON.stringify({ error: "Failed to fetch data" }));
     }
-  }, 5000);
+  }, refresh);
 };
 
 
