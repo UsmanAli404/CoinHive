@@ -24,7 +24,7 @@ function SplashScreen() {
                 return () => clearTimeout(timer);
             } catch (err) {
                 console.error("Error during authentication:", err);
-                navigate('/login'); // fallback
+                navigate('/login');
             }
         };
 
