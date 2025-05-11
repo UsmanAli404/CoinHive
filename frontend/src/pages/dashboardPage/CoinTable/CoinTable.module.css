@@ -1,3 +1,12 @@
+.coinDiv {
+  padding: 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -11,6 +20,7 @@ input[type=number] {
 .coinTable {
   width: 100%;
   border-collapse: collapse;
+  box-sizing: border-box;
 }
 
 .coinTable th,
@@ -147,4 +157,26 @@ input[type=number] {
 .assetLink:hover {
   color: var(--primary-color-dark);
   text-decoration: underline;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }

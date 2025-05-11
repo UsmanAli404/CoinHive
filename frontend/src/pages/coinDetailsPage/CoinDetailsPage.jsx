@@ -28,7 +28,7 @@ function CoinDetailsPage() {
   const fetchData = async () => {
     try {
       const res = await getMarketData({
-        symbol: id.toUpperCase() + 'USDT',
+        symbol: id.toUpperCase(),
         interval: interval,
         limit: limit
       });

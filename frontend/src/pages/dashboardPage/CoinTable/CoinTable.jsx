@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './coinTable.module.css';
 import { getCoins } from '../../../api/functions.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,45 +14,42 @@ import { Link } from 'react-router-dom';
 
 function CoinTable() {
     const dispatch = useDispatch();
+    const [searchQuery, setSearchQuery] = useState('');
+
     const {
         sortField,
         sortOrder, 
         currentPage, 
-        coins, 
-        fetchedBlockPage, 
+        coins,
         inputPage
     } = useSelector(state => state.coinTable);
 
     const itemsPerPage = 10;
-    const coinsPerFetch = 100;
-    const pagesPerBlock = coinsPerFetch / itemsPerPage;
+    const totalItems = 400;
 
+    // Sort handler
     const handleSort = (field) => {
         if (sortField === field) {
-            dispatch(setSortOrder((sortOrder === 'asc' ? 'desc' : 'asc')));
+            dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'));
         } else {
             dispatch(setSortField(field));
             dispatch(setSortOrder('asc'));
         }
     };
 
-    const fetchCoins = async (apiPage) => {
+    // Fetch once on initial load
+    const fetchCoins = async () => {
         try {
             const response = await getCoins({
                 vs_currency: "usd",
                 order: "market_cap_desc",
-                per_page: coinsPerFetch,
-                page: apiPage,
+                per_page: totalItems,
+                page: 1,
                 sparkline: false
             });
 
-            console.log(response);
-
             if (response.status === 200) {
-                // console.log("Fetched data:", response.data);
-                // console.log("Is Array:", Array.isArray(response.data));
                 dispatch(setCoins(response.data));
-                dispatch(setFetchedBlockPage(apiPage));
             } else {
                 console.error("An error occurred while fetching coins");
             }
@@ -61,30 +58,51 @@ function CoinTable() {
         }
     };
 
+    // Run once when component mounts
     useEffect(() => {
-        const blockPage = Math.floor((currentPage - 1) / pagesPerBlock) + 1;
-        const apiPage = (blockPage - 1) * pagesPerBlock + 1;
+        fetchCoins();
+    }, []);
 
-        if (fetchedBlockPage !== apiPage) {
-            fetchCoins(apiPage);
-        }
-    }, [currentPage]);
-
+    // Sync inputPage with currentPage
     useEffect(() => {
         dispatch(setInputPage(currentPage));
     }, [currentPage]);
 
-    const startIndex = ((currentPage - 1) % pagesPerBlock) * itemsPerPage;
-    const visibleCoins = [...coins]
-        .sort((a, b) => {
-            const num_a = Number(a[sortField].replace(/[$,%]/g, ''));
-            const num_b = Number(b[sortField].replace(/[$,%]/g, ''));
-            return sortOrder === 'asc' ? num_a - num_b : num_b - num_a;
-        })
-        .slice(startIndex, startIndex + itemsPerPage);
+    // Filter coins
+    const filteredCoins = coins.filter(coin =>
+        coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Sort coins
+    const sortedCoins = [...filteredCoins].sort((a, b) => {
+        const num_a = Number(a[sortField]?.replace(/[$,%]/g, '') || 0);
+        const num_b = Number(b[sortField]?.replace(/[$,%]/g, '') || 0);
+        return sortOrder === 'asc' ? num_a - num_b : num_b - num_a;
+    });
+
+    // Paginate
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const totalPages = Math.ceil(sortedCoins.length / itemsPerPage);
+    const visibleCoins = sortedCoins.slice(startIndex, startIndex + itemsPerPage);
+
 
     return (
-        <div>
+        <>
+        
+        <div className={styles.searchContainer}>
+            <input
+                type="text"
+                placeholder="Search by symbol..."
+                value={searchQuery}
+                onChange={(e) => {
+                    dispatch(setCurrentPage(1));
+                    setSearchQuery(e.target.value);
+                }}
+                className={styles.searchInput}
+            />
+        </div>
+        <div className={styles.coinDiv}>
             <table className={styles.coinTable}>
                 <thead>
                 <tr>
@@ -128,8 +146,9 @@ function CoinTable() {
                 ))}
                 </tbody>
             </table>
+        </div>
 
-            <div className={styles.pagination}>
+        <div className={styles.pagination}>
                 <div
                     className={styles.arrowWrapper}
                     onClick={() => {
@@ -143,13 +162,14 @@ function CoinTable() {
                     type="number"
                     value={inputPage}
                     onChange={(e) => {
+                        
                         const val = e.target.value;
                     
                         if (val === '') {
                             dispatch(setInputPage(''));
                         } else {
                             const num = parseInt(val);
-                            if (!isNaN(num) && num > 0) {
+                            if (!isNaN(num) && num > 0 && num <= totalPages) {
                                 dispatch(setInputPage(num));
                             }
                         }
@@ -158,7 +178,7 @@ function CoinTable() {
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             const num = parseInt(inputPage);
-                            if (!isNaN(num) && num > 0 && num !== currentPage) {
+                            if (!isNaN(num) && num > 0 && num <= totalPages && num !== currentPage) {
                                 dispatch(setCurrentPage(num));
                             }
                         }
@@ -169,12 +189,15 @@ function CoinTable() {
 
                 <div
                     className={styles.arrowWrapper}
-                    onClick={() => dispatch(setCurrentPage(currentPage + 1))}
+                    onClick={() => {
+                        if (currentPage < totalPages) dispatch(setCurrentPage(currentPage + 1));
+                    }}
                 >
-                    <div className={styles.arrowRight} />
+                    <div className={`${styles.arrowRight} ${currentPage >= totalPages ? styles.disabled : ''}`} />
                 </div>
+
             </div>
-        </div>
+        </>
     );
 }
 
