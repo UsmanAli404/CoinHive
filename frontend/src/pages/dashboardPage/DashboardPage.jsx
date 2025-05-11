@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import styles from './dashboard.module.css'
 import logo from '../../assets/coinhive_favicon.svg'
 import {
@@ -11,10 +11,7 @@ import {
     FaCog,
     FaQuestion,
     FaBars,
-    FaPlus
 } from 'react-icons/fa'
-import CoinTable from './CoinTable/CoinTable.jsx'
-import UserProfile from './UserProfile/UserProfile.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveTab, setCollapsed } from '../../slices/dashboardSlice.js'
 
@@ -42,11 +39,15 @@ function Dashboard()
 
                 <nav className={styles.sidebarNav}>
                     <ul>
-                        <li className={activeTab === 'home' ? styles.active : ''} onClick={() => dispatch(setActiveTab('home'))}>
-                            <FaHome /> 
-                            {!collapsed && <span className={styles.tabButtonDisplayTxt}>Home</span>}
-                            {collapsed && <div className={styles.tooltip}>Home</div>}
-                        </li>
+                        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <li className={activeTab === 'home' ? styles.active : ''}
+                                onClick={() => dispatch(setActiveTab('home'))}>
+                                <FaHome />
+                                {!collapsed && <span className={styles.tabButtonDisplayTxt}>Home</span>}
+                                {collapsed && <div className={styles.tooltip}>Home</div>}
+                            </li>
+                        </Link>
+
                         <li className={activeTab === 'assets' ? styles.active : ''} onClick={() => dispatch(setActiveTab('assets'))}>
                             <FaWallet />
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Assets</span>}
@@ -72,7 +73,7 @@ function Dashboard()
                             {!collapsed && <span className={styles.tabButtonDisplayTxt}>Settings</span>}
                             {collapsed && <div className={styles.tooltip}>Settings</div>}
                         </li>
-                        <Link to="/guide" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to="/dashboard/guide" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <li className={`${styles.guideButton} ${activeTab === 'guide' ? styles.active : ''}`} onClick={() => dispatch(setActiveTab('guide'))}>
                                 <FaQuestion />
                                 {!collapsed && <span className={styles.tabButtonDisplayTxt}>Guide</span>}
@@ -86,46 +87,12 @@ function Dashboard()
             <div className={styles.mainContent}>
                 <header className={styles.header}>
                     <div className={styles.breadcrumb}>
-                        Dashboard &gt; Home
-                    </div>
-                    <div className={styles.headerRight}>
-                        <span className={styles.traderProfile}>Trader Profile</span>
+                        Dashboard &gt; {activeTab}
                     </div>
                 </header>
 
                 <div className={styles.dashboardMain}>
-                    <div className={styles.contentLeft}>
-                        <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                <h2>ASSETS</h2>
-                                <Link to="/assets" className={styles.moreLink}>More Assets →</Link>
-                            </div>
-
-                            <div className={styles.assetCards}>
-                                <div className={styles.newAssetCard}>
-                                    <div className={styles.addIcon}>
-                                        <FaPlus size={12}/>
-                                    </div>
-                                    <p>New Asset</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                <h2>ACTIVITY</h2>
-                                <Link to="/activity" className={styles.moreLink}>More Activity →</Link>
-                            </div>
-                        </section>
-
-                        <section className={styles.section}>
-                        <CoinTable/>
-                        </section>
-                    </div>
-
-                    <div className={styles.contentRight}>
-                        <UserProfile profile={{}} />
-                    </div>
+                    <Outlet />
                 </div>
             </div>
         </div>

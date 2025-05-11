@@ -6,6 +6,8 @@ import OtpPage from './pages/otpPage/OtpPage.jsx'
 import Dashboard from './pages/dashboardPage/DashboardPage.jsx'
 import CoinDetailsPage from './pages/coinDetailsPage/CoinDetailsPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import GuidePage from './pages/dashboardPage/guidePage/guidePage.jsx'
+import HomePage from './pages/dashboardPage/homePage/HomePage.jsx'
 
 function App(){
     return (
@@ -16,7 +18,11 @@ function App(){
             <Route path='/otpPage' element={<OtpPage />} />
 
             <Route element={<ProtectedRoute />}>
-                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/dashboard' element={<Dashboard />}>
+                    <Route index element={<HomePage />} />
+                    <Route path='guide' element={<GuidePage />} />
+                </Route>
+
                 <Route path='/coin/:id' element={<CoinDetailsPage />} />
             </Route>
         </Routes>
