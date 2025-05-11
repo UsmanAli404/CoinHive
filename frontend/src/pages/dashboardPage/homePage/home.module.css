@@ -1,8 +1,3 @@
-.traderProfile {
-    font-weight: bold;
-    font-size: 18px;
-}
-
 .dashboardMain {
     display: flex;
     flex-direction: column;

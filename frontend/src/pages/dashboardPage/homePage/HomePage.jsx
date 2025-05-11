@@ -6,7 +6,7 @@ import UserProfile from '../userProfile/UserProfile';
 
 function HomePage() {
     return (
-        <>
+        <div className={styles.dashboardMain}>
             <div className={styles.contentLeft}>
                 <section className={styles.section}>
                     <div className={styles.sectionHeader}>
@@ -39,7 +39,7 @@ function HomePage() {
             <div className={styles.contentRight}>
                 <UserProfile profile={{}} />
             </div>
-        </>
+        </div>
     );
 }
 
