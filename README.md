@@ -62,8 +62,6 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 ```
 
----
-
 ## 🚦 Running the Project
 
 ### Start the backend server
@@ -80,7 +78,6 @@ npm start
 
 Visit `http://localhost:3000` in your browser.
 
----
 
 ## 📁 Project Structure
 
